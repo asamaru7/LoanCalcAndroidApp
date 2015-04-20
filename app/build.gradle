@@ -33,6 +33,29 @@ buildscript {
 }
 apply from: '../externals/bootstrap/androidannotation.gradle'
 dependencies {
-    compile project(':externals:bootstrap')
+//    releaseCompile project(path: ':externals:bootstrap', configuration: 'release')
+//    debugCompile project(path: ':externals:bootstrap', configuration: 'debug')
+    compile project(':bootstrap')
 }
 // --------------------------------------------------------
+
+//// Trigger build type (as soon as possible) and make some action via corresponding tasks
+//project.afterEvaluate {
+//    tasks.all { task ->
+//        if (task.name =~ /check.*Manifest/) {
+//            if (task.name =~ /[dD]ebug/) {
+//                task.dependsOn(onDebugTypeTriggered)
+//            } else {
+//                task.dependsOn(onReleaseTypeTriggered)
+//            }
+//        }
+//    }
+//}
+//
+//task onDebugTypeTriggered << {
+//    rootProject.ext.variantRelease = false
+//}
+//
+//task onReleaseTypeTriggered << {
+//    rootProject.ext.variantRelease = true
+//}
