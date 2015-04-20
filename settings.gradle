@@ -1,1 +1,2 @@
-include ':app', ':externals:bootstrap'
+include ':app', ':bootstrap'
+project(':bootstrap').projectDir = new File(settingsDir, './externals/bootstrap')
