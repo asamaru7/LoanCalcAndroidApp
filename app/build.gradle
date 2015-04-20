@@ -31,7 +31,8 @@ buildscript {
     repositories { mavenCentral() }
     dependencies { classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4' }
 }
-apply from: '../externals/bootstrap/androidannotation.gradle'
+//apply from: '../externals/bootstrap/androidannotation.gradle'
+apply from: rootProject.file('externals/bootstrap/androidannotation.gradle')
 dependencies {
 //    releaseCompile project(path: ':externals:bootstrap', configuration: 'release')
 //    debugCompile project(path: ':externals:bootstrap', configuration: 'debug')
