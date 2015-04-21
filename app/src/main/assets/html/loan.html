@@ -1,55 +1,58 @@
-<form class="form-horizontal">
-    <div class="form-group">
-        <label class="col-xs-2 control-label">대출금</label>
+<div class="dLoan">
+    <form class="form-horizontal">
+        <div class="form-group">
+            <label class="col-xs-4 control-label">대출금</label>
 
-        <div class="col-xs-10">
-            <div class="input-group">
-                <input type="number" class="form-control" data-bind="value: money"/>
+            <div class="col-xs-8">
+                <div class="input-group">
+                    <input type="number" class="form-control" data-bind="value: money"/>
 
-                <div class="input-group-addon">만원</div>
+                    <div class="input-group-addon">만원</div>
+                </div>
+                <span data-bind="text: moneyText"></span>원
             </div>
         </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-2 control-label">대출금리</label>
+        <div class="form-group">
+            <label class="col-xs-4 control-label">대출금리</label>
 
-        <div class="col-xs-10">
-            <div class="input-group">
-                <div class="input-group-addon">연</div>
-                <input type="number" class="form-control" data-bind="value: rate"/>
+            <div class="col-xs-8">
+                <div class="input-group">
+                    <div class="input-group-addon">연</div>
+                    <input type="number" class="form-control" data-bind="value: rate"/>
 
-                <div class="input-group-addon">만원</div>
+                    <div class="input-group-addon">만원</div>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-2 control-label">대출기간</label>
+        <div class="form-group">
+            <label class="col-xs-4 control-label">대출기간</label>
 
-        <div class="col-xs-10">
-            <div class="input-group">
-                <input type="number" class="form-control" data-bind="value: month"/>
+            <div class="col-xs-8">
+                <div class="input-group">
+                    <input type="number" class="form-control" data-bind="value: month"/>
 
-                <div class="input-group-addon">개월</div>
+                    <div class="input-group-addon">개월</div>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="form-group">
-        <label class="col-xs-2 control-label">거치기간</label>
+        <div class="form-group">
+            <label class="col-xs-4 control-label">거치기간</label>
 
-        <div class="col-xs-10">
-            <div class="input-group">
-                <input type="number" class="form-control" data-bind="value: term"/>
+            <div class="col-xs-8">
+                <div class="input-group">
+                    <input type="number" class="form-control" data-bind="value: term"/>
 
-                <div class="input-group-addon">개월</div>
+                    <div class="input-group-addon">개월</div>
+                </div>
             </div>
         </div>
-    </div>
+    </form>
 
     <div class="form-group">
         <i class="glyphicon glyphicon-star"></i> 오차 가능성 안내
         본 대출금 상환 계산기는 월 단위로 계산 한 것이므로, 실제 대출 시작 일자에 일할 계산에 따른 약간의 차이는 있을 수 있습니다.
 
-        <div class="col-xs-offset-2 col-xs-10">
+        <div class="col-xs-offset-2 col-xs-8">
             <button type="button" class="btn btn-primary" onclick="$.app.loan.calc();">계산하기</button>
             <button type="button" class="btn btn-danger" onclick="$.app.loan.reset();">초기화</button>
         </div>
@@ -71,33 +74,41 @@
             <div class="well well-sm">대출기간동안 매달 이자만 상환하하고, 대출 만기일에 원금을 일시상환 합니다.</div>
         </div>
 
-        <table class="table table-striped table-bordered table-condensed" summary="상환방법, 대출원금(원), 대출기간, 거치기간, 대출이율, 월평균이자(원), 총 이자액(원), 원금 및 총이자액 합계(원) 제공">
-            <caption>원금만기⁄원금균등⁄원리금균등상환 계산결과</caption>
+        <table class="table table-bordered table-condensed dSummary" summary="상환방법, 대출원금(원), 대출기간, 거치기간, 대출이율, 월평균이자(원), 총 이자액(원), 원금 및 총이자액 합계(원) 제공">
+            <caption><span data-bind="text: typeText"></span> 계산결과</caption>
             <thead>
             <tr>
-                <th scope="col">대출원금(원)</th>
+                <th scope="col">대출원금</th>
                 <th scope="col">대출기간</th>
                 <th scope="col">거치기간</th>
                 <th scope="col">대출이율</th>
-                <th scope="col">월평균이자(원)</th>
-                <th scope="col">총 이자액(원)</th>
-                <th scope="col">원금 및 총이자액 합계(원)</th>
             </tr>
             </thead>
             <tbody>
             <tr>
-                <td><span data-bind="text: money"></span></td>
+                <td><span data-bind="text: $.app.util.printNumber(money())"></span></td>
                 <td><span data-bind="text: month"></span>개월</td>
                 <td><span data-bind="text: term"></span>개월</td>
                 <td><span data-bind="text: rate"></span>%</td>
+            </tr>
+            </tbody>
+            <thead>
+            <tr>
+                <th scope="col">월평균이자</th>
+                <th scope="col">총 이자액</th>
+                <th scope="col" colspan="2">원금 및 총이자액</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
                 <td><span data-bind="text: loanMonth"></span></td>
                 <td><span data-bind="text: loanRateAmt"></span></td>
-                <td><span data-bind="text: loanTotalAmt"></span></td>
+                <td colspan="2"><span data-bind="text: loanTotalAmt"></span></td>
             </tr>
             </tbody>
         </table>
 
-        <table class="table table-striped table-bordered table-condensed">
+        <table class="table table-striped table-bordered table-condensed dRows">
             <thead>
             <tr>
                 <th>회차</th>
@@ -120,4 +131,4 @@
             </tbody>
         </table>
     </div>
-</form>
+</div>

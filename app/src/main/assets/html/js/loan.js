@@ -1,15 +1,6 @@
 (function () {
 	'use strict';
 
-	//0값일 경우 - 처리
-	var chkZeroCost = function(val) {
-		if (val == 0) {
-			return "-";
-		} else {
-			return Math.round(val);
-		}
-	};
-
 	var CalculateUtil = {
 		/*
 		 *	이자 계산
@@ -17,22 +8,17 @@
 		getIza: function (loan_type, i, loan, loan_gumri, payBalance) {	//이자
 			var iza_amt = 0;
 			if (loan_type == 3) {					//원금만기일시상환
-				//$I$8*$J$26/12
 				iza_amt = loan * loan_gumri / 12;
 			} else if (loan_type == 2) {				//원금균등상환
 				if (i == 0) {
-					//$I$8*$J$26/12
 					iza_amt = loan * loan_gumri / 12;
 				} else {
-					//N28*$J$26/12
 					iza_amt = payBalance * loan_gumri / 12;
 				}
 			} else if (loan_type == 1) {				//원리금균등상환
 				if (i == 0) {
-					//$I$8*$J$26/12
 					iza_amt = loan * loan_gumri / 12;
 				} else {
-					//N28*$J$26/12
 					iza_amt = payBalance * loan_gumri / 12;
 				}
 			}
@@ -85,7 +71,7 @@
 					'rate': ko.observable(2.89),
 					'month': ko.observable(36),
 					'term': ko.observable(0),
-					'type': ko.observable(0),
+					'type': ko.observable(1),
 					'rows': ko.observableArray([]),
 					'loanMonth': ko.observable(0),	// 월평균이자(원)
 					'loanRateAmt': ko.observable(0),	// 총 이자액(원)
@@ -156,11 +142,11 @@
 
 						rows.push({
 							'num': (i + 1),
-							'payments': Math.round(repayment),
-							'principal': chkZeroCost(org_loan),
-							'interest': Math.round(iza),
-							'total': chkZeroCost(org_loan_tot),
-							'balance': chkZeroCost(payBalance)
+							'payments': $.app.util.printNumber(Math.round(repayment)),
+							'principal': $.app.util.printNumber(Math.round(org_loan)),
+							'interest': $.app.util.printNumber(Math.round(iza)),
+							'total': $.app.util.printNumber(Math.round(org_loan_tot)),
+							'balance': $.app.util.printNumber(Math.round(payBalance))
 						});
 					}
 					$.app.loan.vm.rows(rows);
@@ -175,9 +161,9 @@
 						monthly_loan = monthly_loan / (Math.pow((1 + loan_gumri / 12), (loan_period - loan_term)) - 1);
 					}
 					loan_n_iza = loan + total_iza;
-					$.app.loan.vm.loanMonth(Math.round(monthly_loan));
-					$.app.loan.vm.loanRateAmt(Math.round(total_iza));
-					$.app.loan.vm.loanTotalAmt(Math.round(loan_n_iza));
+					$.app.loan.vm.loanMonth($.app.util.printNumber(Math.round(monthly_loan)));
+					$.app.loan.vm.loanRateAmt($.app.util.printNumber(Math.round(total_iza)));
+					$.app.loan.vm.loanTotalAmt($.app.util.printNumber(Math.round(loan_n_iza)));
 				},
 				'reset': function () {
 					$.app.loan.vm.money(0);
@@ -188,6 +174,20 @@
 				}
 			}
 		}
+	});
+	$.app.loan.vm.typeText = ko.computed(function () {
+		switch ($.app.loan.vm.type()) {
+			case 1 :
+				return '원리금균등상환';
+			case 2 :
+				return '원금균등상환';
+			case 3 :
+				return '원금만기일시상환';
+		}
+	});
+
+	$.app.loan.vm.moneyText = ko.computed(function () {
+		return $.app.util.moneyKorean($.app.loan.vm.money());
 	});
 
 	// https://spot.wooribank.com/pot/Dream?withyou=CMBBS0086&cc=c006244:c006294
