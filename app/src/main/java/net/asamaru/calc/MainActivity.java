@@ -3,6 +3,7 @@ package net.asamaru.calc;
 //import net.asamaru.bootstrap.activity.HtmlActivity;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -11,6 +12,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import net.asamaru.bootstrap.Advisor;
 import net.asamaru.bootstrap.activity.NavigationDrawerActivity;
 import net.asamaru.calc.fragment.WebViewAssetFragment;
 import net.asamaru.calc.fragment.WebViewAssetFragment_;
@@ -60,6 +62,31 @@ public class MainActivity extends NavigationDrawerActivity {
 	protected boolean onDrawerItemClick(AdapterView<?> parent, View view, int position, long id) {
 		replaceFragmentByPostion(position);
 		return true;
+	}
+
+
+	@Override
+	public boolean onCreateOptionsMenu(android.view.Menu menu) {
+		if (Advisor.isDebugable()) {
+			MenuItem item1 = menu.add(0, 0, 0, "Reload");
+			{
+				item1.setAlphabeticShortcut('a');
+				item1.setIcon(android.R.drawable.btn_default_small);
+				item1.setShowAsAction(MenuItem.SHOW_AS_ACTION_WITH_TEXT | MenuItem.SHOW_AS_ACTION_IF_ROOM);
+			}
+		}
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		CharSequence title = item.getTitle();
+		if ((title != null) && (title.toString().equals("Reload"))) {
+			if (activeFragment instanceof WebViewAssetFragment) {
+				((WebViewAssetFragment) activeFragment).reloadHtml();
+			}
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	abstract static class Menu {
