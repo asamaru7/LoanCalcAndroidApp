@@ -22,7 +22,7 @@ import java.util.List;
 
 public class MainActivity extends NavigationDrawerActivity {
 	final static private List<Menu> menus = Arrays.asList(
-			(Menu) new AssetMenu("대출이자", "loan.html", new String[]{"res/knockout/knockout-3.3.0.js", "js/loan.js"}, new String[]{"css/loan.css"}),
+			(Menu) new AssetMenu("대출이자", "loan.html", new String[]{"res/knockout/knockout-3.3.0.js", "res/ripplejs/ripple.min.js", "res/jquery-labelauty/jquery-labelauty.js", "js/loan.js"}, new String[]{"res/ripplejs/ripple.min.css", "res/jquery-labelauty/jquery-labelauty.css", "css/loan.css"}),
 			(Menu) new AssetMenu("예금/적금", "deposit.html"),
 			(Menu) new AssetMenu("연봉", "salary.html"),
 			(Menu) new AssetMenu("평형", "area.html")
