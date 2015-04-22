@@ -15,3 +15,11 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+-renamesourcefileattribute SourceFile
+-keepattributes SourceFile,LineNumberTable
+
+-libraryjars libs
+
+-dontwarn org.androidannotations.api.rest.**
+-dontwarn org.springframework.http.**
