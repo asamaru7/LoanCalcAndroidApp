@@ -172,7 +172,6 @@
 					$.app.loan.vm.rate(0);
 					$.app.loan.vm.period(0);
 					$.app.loan.vm.term(0);
-					$.app.loan.vm.type(0);
 				}
 			}
 		}
