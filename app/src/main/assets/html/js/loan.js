@@ -1,62 +1,55 @@
 (function () {
 	'use strict';
 
-	var CalculateUtil = {
-		/*
-		 *	이자 계산
-		 */
-		getIza: function (loan_type, i, loan, loan_gumri, payBalance) {	//이자
-			var iza_amt = 0;
-			if (loan_type == 3) {					//원금만기일시상환
-				iza_amt = loan * loan_gumri / 12;
-			} else if (loan_type == 2) {				//원금균등상환
+	// https://spot.wooribank.com/pot/Dream?withyou=CMBBS0086&cc=c006244:c006294
+	var LoanCalc = {
+		// 이자 계산
+		getInterest: function (loanType, i, loan, rate, payBalance) {
+			var interest = 0;
+			if (loanType == 3) {					//원금만기일시상환
+				interest = loan * rate / 12;
+			} else if (loanType == 2) {				//원금균등상환
 				if (i == 0) {
-					iza_amt = loan * loan_gumri / 12;
+					interest = loan * rate / 12;
 				} else {
-					iza_amt = payBalance * loan_gumri / 12;
+					interest = payBalance * rate / 12;
 				}
-			} else if (loan_type == 1) {				//원리금균등상환
+			} else if (loanType == 1) {				//원리금균등상환
 				if (i == 0) {
-					iza_amt = loan * loan_gumri / 12;
+					interest = loan * rate / 12;
 				} else {
-					iza_amt = payBalance * loan_gumri / 12;
+					interest = payBalance * rate / 12;
 				}
 			}
-			return iza_amt;
+			return interest;
 		},
-		/*
-		 *	납입원금 계산
-		 */
-		getOrgLoan: function (loan_type, i, loan_period, loan, loan_term, repayment, iza) {
-			var org_loan = 0;
-			if (loan_type == 3) {					//원금만기일시상환
-				if (i == (loan_period - 1)) {	//마지막라인인경우
-					org_loan = loan;
+		// 납입원금 계산
+		getPrincipal: function (loanType, i, period, loan, term, repayment, interest) {
+			var principal = 0;
+			if (loanType == 3) {	//원금만기일시상환
+				if (i == (period - 1)) {	//마지막라인인경우
+					principal = loan;
 				}
-			} else if (loan_type == 2) {				//원금균등상환
-				//$I$8/($I$11-$I$14)
-				org_loan = loan / (loan_period - loan_term);
-			} else if (loan_type == 1) {				//원리금균등상환
-				org_loan = repayment - iza;
+			} else if (loanType == 2) {	//원금균등상환
+				principal = loan / (period - term);
+			} else if (loanType == 1) {	//원리금균등상환
+				principal = repayment - interest;
 			}
-			return org_loan;
+			return principal;
 		},
-		/*
-		 *	상환금 계산
-		 */
-		getRepayment: function (loan_type, org_loan, iza, loan_gumri, loan_period, loan_term, loan, i) {
+		// 상환금 계산
+		getRepayment: function (loanType, principal, interest, rate, period, term, loan, i) {
 			var repayment = 0;
-			if (loan_type == 3) {					//원금만기일시상환
-				repayment = org_loan + iza;
-			} else if (loan_type == 2) {				//원금균등상환
-				repayment = org_loan + iza;
-			} else if (loan_type == 1) {				//원리금균등상환
-				if (i >= loan_term) {	//거치기간 후부터 계산
-					//($I$8*$J$26/12*(1+$J$26/12)^($I$11-$I$14))/((1+$J$26/12)^($I$11-$I$14)-1)
-					repayment = (loan * loan_gumri / 12) * (Math.pow((1 + loan_gumri / 12), (loan_period - loan_term)));
-					repayment = repayment / (Math.pow((1 + loan_gumri / 12), (loan_period - loan_term)) - 1);
+			if (loanType == 3) {	//원금만기일시상환
+				repayment = principal + interest;
+			} else if (loanType == 2) {	//원금균등상환
+				repayment = principal + interest;
+			} else if (loanType == 1) {	//원리금균등상환
+				if (i >= term) {	//거치기간 후부터 계산
+					repayment = (loan * rate / 12) * (Math.pow((1 + rate / 12), (period - term)));
+					repayment = repayment / (Math.pow((1 + rate / 12), (period - term)) - 1);
 				} else {
-					repayment = org_loan + iza;
+					repayment = principal + interest;
 				}
 			}
 			return repayment;
@@ -67,9 +60,10 @@
 		'app': {
 			'loan': {
 				'vm': {
+					'showResult': ko.observable(false),
 					'money': ko.observable(100000000),
 					'rate': ko.observable(2.89),
-					'month': ko.observable(36),
+					'period': ko.observable(36),
 					'term': ko.observable(0),
 					'type': ko.observable(1),
 					'rows': ko.observableArray([]),
@@ -78,14 +72,11 @@
 					'loanTotalAmt': ko.observable(0)	// 원금 및 총이자액 합계(원)
 				},
 				'calc': function () {
-					var maxCost1 = 420; // 30년에서 35년으로 연장됨 2011.04.08
-
-					// 원금만기일시상환 0 -> 3   원금균등상환 1 -> 2 원리금균등상환 2 -> 1
-					var loan_type = parseFloat($.app.loan.vm.type()) || 0;
+					var loanType = parseFloat($.app.loan.vm.type()) || 0;
 					var loan = parseFloat($.app.loan.vm.money()) || 0;	// 대출원금
-					var loan_period = parseFloat($.app.loan.vm.month()) || 0; // 대출기간
-					var loan_term = parseFloat($.app.loan.vm.term()) || 0;	// 거치기간
-					var loan_gumri = (parseFloat($.app.loan.vm.rate()) || 0) / 100;	//금리 계산위해 소수점값으로 변경;	// 대출금리
+					var loanPeriod = parseFloat($.app.loan.vm.period()) || 0; // 대출기간
+					var loanTerm = parseFloat($.app.loan.vm.term()) || 0;	// 거치기간
+					var loanRate = (parseFloat($.app.loan.vm.rate()) || 0) / 100;	//금리 계산위해 소수점값으로 변경;	// 대출금리
 
 					if (loan <= 0) {
 						alert("대출원금을 입력해 주세요.");
@@ -94,81 +85,84 @@
 						alert("대출원금을 10억 이하로 입력해 주세요.");
 						return;
 					}
-					if (loan_period <= 0) {
+					if (loanPeriod <= 0) {
 						alert("대출기간을 입력해 주세요.");
 						return;
-					} else if (loan_period > maxCost1) {
-						alert("대출기간을 " + maxCost1 + "개월 이하로 입력해 주세요.");
+					} else if (loanPeriod > 420) {
+						alert("대출기간을 420개월 이하로 입력해 주세요.");
 						return;
 					}
-					if (loan_period <= loan_term) {
+					if (loanPeriod <= loanTerm) {
 						alert("거치기간이 대출기간보다 크거나 같을 수 없습니다.");
 						return;
 					}
-					if (loan_gumri <= 0) {
+					if (loanRate <= 0) {
 						alert("대출금리를 입력해 주세요.");
 						return;
-					} else if (loan_gumri > 30) {
+					} else if (loanRate > 30) {
 						alert("대출금리를 30%이하로 입력해 주세요.");
 						return;
 					}
 
 					//계산결과
-					var monthly_loan = 0;	//월상환금
-					var total_iza = 0;		//총이자
-					var loan_n_iza;		//원금및이자
-					var iza;	//이자
-					var org_loan = 0;	//납입원금
+					var monthlyLoan = 0;	//월상환금
+					var totalInterest = 0;		//총이자
+					var principalNinterest;		//원금및이자
+					var interest;	//이자
+					var principal = 0;	//납입원금
 					var repayment = 0;	//상환금
-					var org_loan_tot = 0;	//납입원금 누계
+					var principalTotal = 0;	//납입원금 누계
 					var payBalance = loan;	//잔금
 					var rows = [];
-					for (var i = 0; i < loan_period; i++) {
-						iza = CalculateUtil.getIza(loan_type, i, loan, loan_gumri, payBalance);
-						total_iza = total_iza + iza;
-						if (loan_type == 1) {
-							repayment = CalculateUtil.getRepayment(loan_type, org_loan, iza, loan_gumri, loan_period, loan_term, loan, i);
-							if (i >= loan_term) {	//거치기간 후부터 계산
-								org_loan = CalculateUtil.getOrgLoan(loan_type, i, loan_period, loan, loan_term, repayment, iza);
+					for (var i = 0; i < loanPeriod; i++) {
+						interest = LoanCalc.getInterest(loanType, i, loan, loanRate, payBalance);
+						totalInterest = totalInterest + interest;
+						if (loanType == 1) {
+							repayment = LoanCalc.getRepayment(loanType, principal, interest, loanRate, loanPeriod, loanTerm, loan, i);
+							if (i >= loanTerm) {	//거치기간 후부터 계산
+								principal = LoanCalc.getPrincipal(loanType, i, loanPeriod, loan, loanTerm, repayment, interest);
 							}
 						} else {
-							if (i >= loan_term) {	//거치기간 후부터 계산
-								org_loan = CalculateUtil.getOrgLoan(loan_type, i, loan_period, loan, loan_term, repayment, iza);
+							if (i >= loanTerm) {	//거치기간 후부터 계산
+								principal = LoanCalc.getPrincipal(loanType, i, loanPeriod, loan, loanTerm, repayment, interest);
 							}
-							repayment = CalculateUtil.getRepayment(loan_type, org_loan, iza, loan_gumri, loan_period, loan_term, loan, i);
+							repayment = LoanCalc.getRepayment(loanType, principal, interest, loanRate, loanPeriod, loanTerm, loan, i);
 						}
-						org_loan_tot = org_loan_tot + org_loan;
-						payBalance = loan - org_loan_tot;
+						principalTotal = principalTotal + principal;
+						payBalance = loan - principalTotal;
 
 						rows.push({
 							'num': (i + 1),
 							'payments': $.app.util.printNumber(Math.round(repayment)),
-							'principal': $.app.util.printNumber(Math.round(org_loan)),
-							'interest': $.app.util.printNumber(Math.round(iza)),
-							'total': $.app.util.printNumber(Math.round(org_loan_tot)),
+							'principal': $.app.util.printNumber(Math.round(principal)),
+							'interest': $.app.util.printNumber(Math.round(interest)),
+							'total': $.app.util.printNumber(Math.round(principalTotal)),
 							'balance': $.app.util.printNumber(Math.round(payBalance))
 						});
 					}
 					$.app.loan.vm.rows(rows);
 
-					if (loan_type == 3) {
-						monthly_loan = total_iza / loan_period;
-					} else if (loan_type == 2) {
-						monthly_loan = loan / (loan_period - loan_term);
-					} else if (loan_type == 1) {
-						monthly_loan = loan * loan_gumri / 12;
-						monthly_loan = monthly_loan * (Math.pow((1 + loan_gumri / 12), (loan_period - loan_term)));
-						monthly_loan = monthly_loan / (Math.pow((1 + loan_gumri / 12), (loan_period - loan_term)) - 1);
+					if (loanType == 3) {
+						monthlyLoan = totalInterest / loanPeriod;
+					} else if (loanType == 2) {
+						monthlyLoan = loan / (loanPeriod - loanTerm);
+					} else if (loanType == 1) {
+						monthlyLoan = loan * loanRate / 12;
+						monthlyLoan = monthlyLoan * (Math.pow((1 + loanRate / 12), (loanPeriod - loanTerm)));
+						monthlyLoan = monthlyLoan / (Math.pow((1 + loanRate / 12), (loanPeriod - loanTerm)) - 1);
 					}
-					loan_n_iza = loan + total_iza;
-					$.app.loan.vm.loanMonth($.app.util.printNumber(Math.round(monthly_loan)));
-					$.app.loan.vm.loanRateAmt($.app.util.printNumber(Math.round(total_iza)));
-					$.app.loan.vm.loanTotalAmt($.app.util.printNumber(Math.round(loan_n_iza)));
+					principalNinterest = loan + totalInterest;
+					$.app.loan.vm.loanMonth($.app.util.printNumber(Math.round(monthlyLoan)));
+					$.app.loan.vm.loanRateAmt($.app.util.printNumber(Math.round(totalInterest)));
+					$.app.loan.vm.loanTotalAmt($.app.util.printNumber(Math.round(principalNinterest)));
+
+					$.app.loan.vm.showResult(true);
 				},
 				'reset': function () {
+					$.app.loan.vm.showResult(false);
 					$.app.loan.vm.money(0);
 					$.app.loan.vm.rate(0);
-					$.app.loan.vm.month(0);
+					$.app.loan.vm.period(0);
 					$.app.loan.vm.term(0);
 					$.app.loan.vm.type(0);
 				}
@@ -189,8 +183,6 @@
 	$.app.loan.vm.moneyText = ko.computed(function () {
 		return $.app.util.moneyKorean($.app.loan.vm.money());
 	});
-
-	// https://spot.wooribank.com/pot/Dream?withyou=CMBBS0086&cc=c006244:c006294
 
 	$(function () {
 		var form = $('#cWriteForm');
