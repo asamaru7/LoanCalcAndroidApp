@@ -177,6 +177,9 @@
 			}
 		}
 	});
+	$.app.loan.vm.type.subscribe(function () {
+		$.app.loan.calc();
+	});
 	$.app.loan.vm.typeText = ko.computed(function () {
 		switch ($.app.loan.vm.type()) {
 			case 1 :

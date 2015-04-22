@@ -28,6 +28,7 @@ public class MainActivity extends NavigationDrawerActivity {
 							"res/ripplejs/ripple.min.js",
 							"res/jquery-labelauty/jquery-labelauty.js",
 							"res/alertify/js/alertify.js",
+							"res/jquery-scrollTo/jquery.scrollTo.min.js",
 							"js/loan.js"},
 					new String[]{
 							"res/ripplejs/ripple.min.css",
