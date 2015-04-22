@@ -3,14 +3,21 @@ package net.asamaru.calc;
 //import net.asamaru.bootstrap.activity.HtmlActivity;
 
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 
 import net.asamaru.bootstrap.Advisor;
 import net.asamaru.bootstrap.activity.NavigationDrawerActivity;
@@ -46,7 +53,34 @@ public class MainActivity extends NavigationDrawerActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		Advisor.isKorean();
+		final AdView adView = new AdView(this);
+		adView.setAdSize(AdSize.SMART_BANNER);
+		adView.setAdUnitId(getResources().getString(R.string.banner_ad_unit_id));
+		AdSize adSize = adView.getAdSize();
+		final int adHeight = adSize.getHeightInPixels(this);
+		adView.setAdListener(new AdListener() {
+								 public void onAdLoaded() {
+									 runOnUiThread(new Runnable() {
+										 public void run() {
+											 if (adView.getParent() == null) {
+												 View contents = ((ViewGroup) findViewById(android.R.id.content)).getChildAt(0);
+												 ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) contents.getLayoutParams();
+												 params.setMargins(params.leftMargin, params.topMargin, params.rightMargin, params.bottomMargin + adHeight);
+												 contents.setLayoutParams(params);
+
+												 addContentView(adView, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT));
+												 ((FrameLayout.LayoutParams) adView.getLayoutParams()).gravity = Gravity.BOTTOM;
+											 }
+										 }
+									 });
+								 }
+							 }
+		);
+		adView.loadAd(new AdRequest.Builder()
+				.addTestDevice("AB60482CB227CE6C1B52F429850D039E")    // nexus s
+				.addTestDevice("B1EFBB39D34D357094674D8266376BC2")    // note 3
+				.build());
+
 		replaceFragmentByPosition(0);
 	}
 

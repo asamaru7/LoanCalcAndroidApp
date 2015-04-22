@@ -1,4 +1,8 @@
 <resources>
+    <!-- AdMob -->
+    <!--<string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string> test-->
+    <string name="banner_ad_unit_id">ca-app-pub-8163803188491150/8530941826</string>
+
     <string name="app_name">calc</string>
 
     <string name="hello_world">Hello world!</string>

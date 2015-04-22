@@ -22,27 +22,27 @@
 <div class="dLoan">
     <form class="form-horizontal">
         <div class="form-group">
-            <label class="col-xs-4 control-label">대출금</label>
+            <label class="col-xs-3 control-label">대출금</label>
 
-            <div class="col-xs-8">
+            <div class="col-xs-9">
                 <div class="input-group">
                     <input type="number" id="pMoney" class="form-control" data-bind="value: money"/>
 
                     <div class="input-group-addon">만원</div>
                 </div>
-                <span class="help-block text-right dWon" data-bind="visible: moneyText() != ''"><span class="text-danger" data-bind="text: moneyText"></span>원</span>
                 <div class="dUtilBtn">
                     <button type="button" class="btn btn-default btn-sm" onclick="$.app.loan.vm.money((parseFloat($.app.loan.vm.money()) || 0) + 100000);">십만원</button>
                     <button type="button" class="btn btn-default btn-sm" onclick="$.app.loan.vm.money((parseFloat($.app.loan.vm.money()) || 0) + 1000000);">백만원</button>
                     <button type="button" class="btn btn-default btn-sm" onclick="$.app.loan.vm.money((parseFloat($.app.loan.vm.money()) || 0) + 10000000);">천만원</button>
                     <button type="button" class="btn btn-default btn-sm" onclick="$.app.loan.vm.money((parseFloat($.app.loan.vm.money()) || 0) + 100000000);">일억원</button>
                 </div>
+                <span class="help-block text-right dWon" data-bind="visible: moneyText() != ''"><span class="text-danger" data-bind="text: moneyText"></span>원</span>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-4 control-label">대출금리</label>
+            <label class="col-xs-3 control-label">대출금리</label>
 
-            <div class="col-xs-8">
+            <div class="col-xs-9">
                 <div class="input-group">
                     <div class="input-group-addon">연</div>
                     <input type="number" id="pRate" class="form-control" data-bind="value: rate"/>
@@ -57,14 +57,13 @@
                     <button type="button" class="btn btn-default btn-sm" onclick="$.app.loan.vm.rate(6.0);">6%</button>
                     <button type="button" class="btn btn-default btn-sm" onclick="$.app.loan.vm.rate(7.0);">7%</button>
                     <button type="button" class="btn btn-default btn-sm" onclick="$.app.loan.vm.rate(10.0);">10%</button>
-                    <button type="button" class="btn btn-default btn-sm" onclick="$.app.loan.vm.rate(39.0);">39%</button>
                 </div>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-4 control-label">대출기간</label>
+            <label class="col-xs-3 control-label">대출기간</label>
 
-            <div class="col-xs-8">
+            <div class="col-xs-9">
                 <div class="input-group">
                     <input type="number" id="pPeriod" class="form-control" data-bind="value: period"/>
 
@@ -83,9 +82,9 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-4 control-label">거치기간</label>
+            <label class="col-xs-3 control-label">거치기간</label>
 
-            <div class="col-xs-8">
+            <div class="col-xs-9">
                 <div class="input-group">
                     <input type="number" id="pTerm" class="form-control" data-bind="value: term"/>
 
