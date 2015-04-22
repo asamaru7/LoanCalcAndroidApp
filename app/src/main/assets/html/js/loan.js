@@ -61,9 +61,9 @@
 			'loan': {
 				'vm': {
 					'showResult': ko.observable(false),
-					'money': ko.observable(100000000),
-					'rate': ko.observable(2.89),
-					'period': ko.observable(36),
+					'money': ko.observable(''),
+					'rate': ko.observable(''),
+					'period': ko.observable(''),
 					'term': ko.observable(0),
 					'type': ko.observable(1),
 					'rows': ko.observableArray([]),
@@ -79,28 +79,35 @@
 					var loanRate = (parseFloat($.app.loan.vm.rate()) || 0) / 100;	//금리 계산위해 소수점값으로 변경;	// 대출금리
 
 					if (loan <= 0) {
-						alert("대출원금을 입력해 주세요.");
+						alertify.error("대출금을 입력해 주세요.");
+						$.app.util.focus($('#pMoney'));
 						return;
 					} else if (loan > 1000000000) {
-						alert("대출원금을 10억 이하로 입력해 주세요.");
-						return;
-					}
-					if (loanPeriod <= 0) {
-						alert("대출기간을 입력해 주세요.");
-						return;
-					} else if (loanPeriod > 420) {
-						alert("대출기간을 420개월 이하로 입력해 주세요.");
-						return;
-					}
-					if (loanPeriod <= loanTerm) {
-						alert("거치기간이 대출기간보다 크거나 같을 수 없습니다.");
+						alertify.error("대출금을 10억 이하로 입력해 주세요.");
+						$.app.util.focus($('#pMoney'));
 						return;
 					}
 					if (loanRate <= 0) {
-						alert("대출금리를 입력해 주세요.");
+						alertify.error("대출금리를 입력해 주세요.");
+						$.app.util.focus($('#pRate'));
 						return;
 					} else if (loanRate > 30) {
-						alert("대출금리를 30%이하로 입력해 주세요.");
+						alertify.error("대출금리를 30%이하로 입력해 주세요.");
+						$.app.util.focus($('#pRate'));
+						return;
+					}
+					if (loanPeriod <= 0) {
+						alertify.error("대출기간을 입력해 주세요.");
+						$.app.util.focus($('#pPeriod'));
+						return;
+					} else if (loanPeriod > 420) {
+						alertify.error("대출기간을 420개월 이하로 입력해 주세요.");
+						$.app.util.focus($('#pPeriod'));
+						return;
+					}
+					if (loanPeriod <= loanTerm) {
+						alertify.error("거치기간이 대출기간보다 크거나 같을 수 없습니다.");
+						$.app.util.focus($('#pTerm'));
 						return;
 					}
 
@@ -157,6 +164,7 @@
 					$.app.loan.vm.loanTotalAmt($.app.util.printNumber(Math.round(principalNinterest)));
 
 					$.app.loan.vm.showResult(true);
+					$('body').scrollTo('.dResult');
 				},
 				'reset': function () {
 					$.app.loan.vm.showResult(false);

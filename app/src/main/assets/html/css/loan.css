@@ -1,5 +1,7 @@
 .dLoan { padding:10px 0; }
 .dLoan .form-horizontal { overflow-x:hidden; }
+.dLoan input[type=number] { text-align:right; }
+.dLoan .help-block .btn { margin-bottom:5px; }
 .dLoan .control-label { text-align:right; }
 .dLoan .dSummary th, .dLoan .dRows th { text-align:center; font-size:12px; white-space:nowrap; padding:5px 0; }
 .dLoan .dSummary td, .dLoan .dRows td { text-align:right; font-size:12px; white-space:nowrap; }
