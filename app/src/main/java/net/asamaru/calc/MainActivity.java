@@ -20,10 +20,12 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.orhanobut.logger.Logger;
+import com.squareup.otto.Subscribe;
 
 import net.asamaru.bootstrap.Advisor;
 import net.asamaru.bootstrap.activity.NavigationDrawerActivity;
 import net.asamaru.calc.fragment.HistoryFragment_;
+import net.asamaru.calc.fragment.LoanFragment;
 import net.asamaru.calc.fragment.LoanFragment_;
 import net.asamaru.calc.fragment.WebViewAssetFragment;
 import net.asamaru.calc.fragment.WebViewAssetFragment_;
@@ -44,6 +46,8 @@ public class MainActivity extends NavigationDrawerActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		Advisor.getEventBus().register(this);
 
 		final AdView adView = new AdView(this);
 		adView.setAdSize(AdSize.SMART_BANNER);
@@ -114,16 +118,33 @@ public class MainActivity extends NavigationDrawerActivity {
 		return true;
 	}
 
+	// event bus
+	static public class ReCalcEvent {
+		public String key;
+
+		public ReCalcEvent(String key) {
+			this.key = key;
+		}
+	}
+
+	@Subscribe
+	public void recalcLoan(final ReCalcEvent event) {
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				LoanFragment loanFragment = LoanFragment_.builder().key(event.key).build();
+				replaceFragment(loanFragment);
+			}
+		});
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(android.view.Menu menu) {
 		if (Advisor.isDebugable()) {
 			MenuItem item1 = menu.add(0, 0, 0, "Reload");
-			{
-				item1.setAlphabeticShortcut('a');
-				item1.setIcon(android.R.drawable.btn_default_small);
-				item1.setShowAsAction(MenuItem.SHOW_AS_ACTION_WITH_TEXT | MenuItem.SHOW_AS_ACTION_IF_ROOM);
-			}
+//				item1.setAlphabeticShortcut('a');
+			item1.setIcon(android.R.drawable.btn_default_small);
+			item1.setShowAsAction(MenuItem.SHOW_AS_ACTION_WITH_TEXT | MenuItem.SHOW_AS_ACTION_IF_ROOM);
 		}
 		return super.onCreateOptionsMenu(menu);
 	}

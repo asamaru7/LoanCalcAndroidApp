@@ -1,12 +1,12 @@
 <div class="dLoanHistory">
     <ul id="cHistory">
         {% loop in $histories as $his counter=$i,1 %}
-        <li>
+        <li id="pHis_{$his.id}">
             <div class="clearfix dTtl">
-                <div class="pull-left">{$i}.{$his.type} ({$his.date})</div>
+                <div class="pull-left"><!-- {$i}. -->{$his.type} ({$his.date})</div>
                 <div class="pull-right">
-                    <button type="button" class="btn btn-sm btn-primary">상세보기</button>
-                    <button type="button" class="btn btn-sm btn-danger" onclick="{$his.key}">삭제</button>
+                    <button type="button" class="btn btn-sm btn-primary" onclick="$.app.history.reCalcByKey('{$his.key}');">상세보기</button>
+                    <button type="button" class="btn btn-sm btn-danger" onclick="$.app.history.removeByKey('{$his.key}', '{$his.id}');">삭제</button>
                 </div>
             </div>
             <table class="table table-bordered table-condensed dSummary">

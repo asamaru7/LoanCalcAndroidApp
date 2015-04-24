@@ -5,11 +5,15 @@ import com.x5.template.Chunk;
 import net.asamaru.calc.R;
 
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.FragmentArg;
 
 import java.io.IOException;
 
 @EFragment
 public class LoanFragment extends WebViewAssetFragment {
+	@FragmentArg
+	protected String key;
+
 	public LoanFragment() {
 		super();
 		path = "loan.html";
@@ -48,5 +52,23 @@ public class LoanFragment extends WebViewAssetFragment {
 		}
 		return c.toString();
 //		return super.readText(file);
+	}
+
+	@Override
+	protected String getFooter() {
+		String footer = super.getFooter();
+		if (key != null) {
+			String[] args = key.split(":");
+			if (args.length >= 5) {
+				footer += "<script type=\"text/javascript\"> $(function () { $.app.loan.calcByArgs(";
+				footer += "parseInt('" + args[0] + "'),";
+				footer += "parseFloat('" + args[1] + "'),";
+				footer += "parseFloat('" + args[2] + "'),";
+				footer += "parseInt('" + args[3] + "'),";
+				footer += "parseInt('" + args[4] + "')";
+				footer += "); }); </script>";
+			}
+		}
+		return footer;
 	}
 }

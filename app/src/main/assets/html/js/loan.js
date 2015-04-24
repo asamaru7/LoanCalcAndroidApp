@@ -73,7 +73,7 @@
 				},
 				'addHistory': function () {
 					var vm = $.app.loan.vm;
-					var key = vm.type() + '-' + vm.money() + '-' + vm.rate() + '-' + vm.period() + '-' + vm.term();
+					var key = vm.type() + ':' + vm.money() + ':' + vm.rate() + ':' + vm.period() + ':' + vm.term();
 					$.app.interface.addHistory(
 						key,
 						parseFloat(vm.money()),
@@ -88,8 +88,21 @@
 					vm = null;
 					key = null;
 				},
+				'calcByArgs': function (type, money, rate, period, term) {
+					$.app.loan.vm.money(money);
+					$.app.loan.vm.rate(rate);
+					$.app.loan.vm.period(period);
+					$.app.loan.vm.term(term);
+
+					// $.app.loan.calc(); // type() subscribe에 의해 자동 계산
+					$.app.loan.vm.type(0);
+					$.app.loan.vm.type(type);
+				},
 				'calc': function () {
 					var loanType = parseFloat($.app.loan.vm.type()) || 0;
+					if (loanType == 0) {
+						return;
+					}
 					var loan = parseFloat($.app.loan.vm.money()) || 0;	// 대출원금
 					var loanPeriod = parseFloat($.app.loan.vm.period()) || 0; // 대출기간
 					var loanTerm = parseFloat($.app.loan.vm.term()) || 0;	// 거치기간

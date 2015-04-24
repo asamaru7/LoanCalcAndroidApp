@@ -10,6 +10,8 @@ import io.realm.RealmResults;
 
 public class HistoryWorker {
 	static public void add(String key, int money, int type, float rate, int period, int term, int loanMonth, int loanRateAmt, int loanTotalAmt) {
+		remove(key);    // 중복된 키워드 제거
+
 		Realm realm = Realm.getInstance(Advisor.getAppContext());
 		realm.beginTransaction();
 		History history = realm.createObject(History.class);
@@ -38,7 +40,9 @@ public class HistoryWorker {
 	static public RealmResults<History> getList() {
 		Realm realm = Realm.getInstance(Advisor.getAppContext());
 		RealmQuery<History> query = realm.where(History.class);
-		return query.findAll();
+		RealmResults<History> results = query.findAll();
+		results.sort("date", RealmResults.SORT_ORDER_DESCENDING);
+		return results;
 //		RealmResults<History> list = query.findAll();
 //		History[] rtn = new History[list.size()];
 //		for (int i = 0, iCnt = list.size(); i < iCnt; i++) {

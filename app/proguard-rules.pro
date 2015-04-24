@@ -29,3 +29,16 @@
 -keep class io.realm.** { *; }
 -dontwarn javax.**
 -dontwarn io.realm.**
+
+# -------------------------------------------------------
+# bootstrap
+
+# android-iconify
+-keep class com.joanzapata.** { *; }
+
+# otto
+-keepattributes *Annotation*
+-keepclassmembers class ** {
+    @com.squareup.otto.Subscribe public *;
+    @com.squareup.otto.Produce public *;
+}

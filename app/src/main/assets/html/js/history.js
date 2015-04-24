@@ -3,29 +3,23 @@
 	$.extend(true, $, {
 		'app': {
 			'history': {
-//				'getDate': function (dateText) {
-//					var date = new Date(dateText);
-//					var str = date.getFullYear() + '-';
-//					str += ((String(date.getMonth() + 1).length <= 1) ? '0' : '') + (date.getMonth() + 1) + '-';
-//					str += ((String(date.getDate()).length <= 1) ? '0' : '') + date.getDate() + ' ';
-//					str += ((String(date.getHours()).length <= 1) ? '0' : '') + date.getHours() + ':';
-//					str += ((String(date.getMinutes()).length <= 1) ? '0' : '') + date.getMinutes() + ':';
-//					str += ((String(date.getSeconds()).length <= 1) ? '0' : '') + date.getSeconds();
-//					return str;
-//				}
+				'reCalcByKey': function (key) {
+					$.app.interface.reCalc(key);
+				},
+				'removeByKey': function (key, id) {
+					alertify.confirm('삭제하시겠습니까?', function (e) {
+						if (e) {
+							$.app.interface.removeHistory(key);
+							console.log('#pHis_' + id);
+							$('#pHis_' + id).remove();
+						}
+					});
+				}
 			}
 		}
 	});
 
 	$(function () {
-		$.ripple(".btn, .nav-tabs > li", {});
-
-//		var compiled = _.template($('#pRows').text());
-//		var rows = store.get('loan-history');
-//		if (!$.isArray(rows)) {
-//			rows = [];
-//		}
-//		$('#cHistory').html(compiled({'rows': rows}));
-//		rows = null;
+		$.ripple(".btn", {});
 	});
 })();

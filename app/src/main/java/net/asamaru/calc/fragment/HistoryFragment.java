@@ -1,5 +1,14 @@
 package net.asamaru.calc.fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+
+import com.joanzapata.android.iconify.IconDrawable;
+import com.joanzapata.android.iconify.Iconify;
 import com.x5.template.Chunk;
 
 import net.asamaru.calc.R;
@@ -36,6 +45,43 @@ public class HistoryFragment extends WebViewAssetFragment {
 	}
 
 	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setHasOptionsMenu(true);
+	}
+
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		menu.clear();
+		MenuItem item1 = menu.add(0, 0, 0, "Clear");
+		item1.setIcon(new IconDrawable(this.getActivity(), Iconify.IconValue.fa_trash_o).colorRes(android.R.color.white).actionBarSize());
+		item1.setShowAsAction(MenuItem.SHOW_AS_ACTION_WITH_TEXT | MenuItem.SHOW_AS_ACTION_IF_ROOM);
+
+		super.onCreateOptionsMenu(menu, inflater);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		CharSequence title = item.getTitle();
+		if ((title != null) && (title.toString().equals("Clear"))) {
+			new AlertDialog.Builder(this.getActivity())
+					.setIcon(android.R.drawable.ic_dialog_alert)
+					.setTitle("이력 모두 삭제")
+					.setMessage("계산 이력을 모두 삭제하시겠습니까?")
+					.setPositiveButton("삭제", new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							HistoryWorker.removeAll();
+							loadHtml();
+						}
+					})
+					.setNegativeButton("취소", null)
+					.show();
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
 	protected JavaScriptInterface getJavaScriptInterface() {
 		return new JavaScriptInterface(this, webView);
 	}
@@ -56,6 +102,7 @@ public class HistoryFragment extends WebViewAssetFragment {
 		for (int i = 0, iCnt = list.size(); i < iCnt; i++) {
 			final History item = list.get(i);
 			histories.add(new HashMap<String, String>() {{
+				put("id", item.getKey().replaceAll("[\\.:]", "_"));
 				put("key", item.getKey());
 				put("date", dateFormat.format(item.getDate()));
 				put("type", typeText(item.getType()));
