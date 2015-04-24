@@ -74,35 +74,17 @@
 				'addHistory': function () {
 					var vm = $.app.loan.vm;
 					var key = vm.type() + '-' + vm.money() + '-' + vm.rate() + '-' + vm.period() + '-' + vm.term();
-					var history = store.get('loan-history');
-					if ($.isArray(history)) {
-						for (var i = history.length - 1; i >= 0; i--) {
-							if (history[i].key == key) {
-								history.splice(i, 1);
-								console.log('duplicate remove!');
-							}
-						}
-					} else {
-						history = [];
-					}
-					var row = {
-						date: new Date(),
-						key: key,
-						money: parseFloat(vm.money()),
-						type: parseInt(vm.type()),
-						rate: parseFloat(vm.rate()),
-						period: parseInt(vm.period()),
-						loanMonth: parseInt(vm.loanMonth().replace(',', '')),
-						loanRateAmt: parseInt(vm.loanRateAmt().replace(',', '')),
-						loanTotalAmt: parseInt(vm.loanTotalAmt().replace(',', ''))
-					};
-					history.unshift(row);
-					row = null;
-					if (history.length > 100) {
-						history = history.slice(0, 100);
-					}
-					store.set('loan-history', history);
-					history = null;
+					$.app.interface.addHistory(
+						key,
+						parseFloat(vm.money()),
+						parseInt(vm.type()),
+						parseFloat(vm.rate()),
+						parseInt(vm.period()),
+						parseInt(vm.term()),
+						parseInt(vm.loanMonth().replace(/,/g, '')),
+						parseInt(vm.loanRateAmt().replace(/,/g, '')),
+						parseInt(vm.loanTotalAmt().replace(/,/g, ''))
+					);
 					vm = null;
 					key = null;
 				},

@@ -1,6 +1,8 @@
 .dLoanHistory { padding:10px 0; }
 #cHistory { margin:10px 0 0 0; padding:0; }
-#cHistory li { list-style:none; margin:0; padding:0; }
+#cHistory li { list-style:none; margin:0; padding:0; border-bottom:#ccc solid 1px; }
+#cHistory li:last-child { border-bottom:0 none; }
+.dLoanHistory .dTtl { margin:5px 0; }
 .dLoanHistory .dHelp { padding:5px 0; margin:0; clear:both; }
 .dLoanHistory .dSummary th, .dLoanHistory .dRows th { text-align:center; font-size:12px; white-space:nowrap; padding:5px 0; }
 .dLoanHistory .dSummary td, .dLoanHistory .dRows td { text-align:right; font-size:12px; white-space:nowrap; }

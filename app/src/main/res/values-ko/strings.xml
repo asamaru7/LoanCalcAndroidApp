@@ -11,6 +11,7 @@
     </string-array>
 
     <string-array name="i18n_history">
+        <item>loanAmount:Loan amount</item>
     </string-array>
 
 </resources>

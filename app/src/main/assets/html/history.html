@@ -1,59 +1,54 @@
 <div class="dLoanHistory">
-	<div class="text-right">
-		<button type="button" class="btn btn-danger">모두 삭제</button>
-	</div>
-	<ul id="cHistory"></ul>
-	<script type="text/html" id="pRows">
-		<% if (rows.length <= 0) { %>
-		<li class="panel panel-danger">
-			<div class="panel-heading"><i class="glyphicon glyphicon-star"></i> 안내</div>
-			<div class="panel-body">
-				계산된 이력이 없습니다.
-			</div>
-		</li>
-		<% } else { var i = 1;
-		_.each(rows, function(row) { %>
-		<li>
-			<div>
-				<%= i++ %>.
-				<%= $.app.history.typeText(row.type) %>
-				<%= $.app.history.getDate(row.date) %>
-				<button type="button" class="btn btn-sm btn-primary">상세보기</button>
-				<button type="button" class="btn btn-sm btn-danger">삭제</button>
-			</div>
-			<table class="table table-bordered table-condensed dSummary">
-				<thead>
-				<tr>
-					<th scope="col">대출원금</th>
-					<th scope="col">대출기간</th>
-					<th scope="col">거치기간</th>
-					<th scope="col">대출이율</th>
-				</tr>
-				</thead>
-				<tbody>
-				<tr>
-					<td><%= $.app.util.printNumber(row.money) %></td>
-					<td><%= row.period %>개월</td>
-					<td><%= ((typeof(row.term) != 'undefined') && (row.term > 0)) ? row.term + '개월' : '-' %></td>
-					<td><%= row.rate %>%</td>
-				</tr>
-				</tbody>
-				<thead>
-				<tr>
-					<th scope="col"><%= $.app.history.summaryText(row.type) %></th>
-					<th scope="col">총 이자액</th>
-					<th scope="col" colspan="2">원금 및 총이자액</th>
-				</tr>
-				</thead>
-				<tbody>
-				<tr>
-					<td><%= $.app.util.printNumber(row.loanMonth) %></td>
-					<td><%= $.app.util.printNumber(row.loanRateAmt) %></td>
-					<td colspan="2"><%= $.app.util.printNumber(row.loanTotalAmt) %></td>
-				</tr>
-				</tbody>
-			</table>
-		</li>
-		<% }); } %>
-	</script>
+    <ul id="cHistory">
+        {% loop in $histories as $his counter=$i,1 %}
+        <li>
+            <div class="clearfix dTtl">
+                <div class="pull-left">{$i}.{$his.type} ({$his.date})</div>
+                <div class="pull-right">
+                    <button type="button" class="btn btn-sm btn-primary">상세보기</button>
+                    <button type="button" class="btn btn-sm btn-danger" onclick="{$his.key}">삭제</button>
+                </div>
+            </div>
+            <table class="table table-bordered table-condensed dSummary">
+                <thead>
+                <tr>
+                    <th scope="col">대출원금</th>
+                    <th scope="col">대출기간</th>
+                    <th scope="col">대출이율</th>
+                    <th scope="col">거치기간</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>{$his.money}</td>
+                    <td>{$his.period}개월</td>
+                    <td>{$his.rate}%</td>
+                    <td>{$his.term}개월</td>
+                </tr>
+                </tbody>
+                <thead>
+                <tr>
+                    <th scope="col">{$his.suumaryText}</th>
+                    <th scope="col">총 이자액</th>
+                    <th scope="col" colspan="2">원금 및 총이자액</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>{$his.loanMonth}</td>
+                    <td>{$his.loanRateAmt}</td>
+                    <td colspan="2">{$his.loanTotalAmt}</td>
+                </tr>
+                </tbody>
+            </table>
+        </li>
+        {% onEmpty %}
+        <li class="panel panel-danger">
+            <div class="panel-heading"><i class="glyphicon glyphicon-star"></i> 안내</div>
+            <div class="panel-body">
+                계산된 이력이 없습니다.
+            </div>
+        </li>
+        {% endloop %}
+    </ul>
 </div>

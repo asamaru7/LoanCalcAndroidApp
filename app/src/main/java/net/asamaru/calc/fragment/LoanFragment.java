@@ -29,6 +29,11 @@ public class LoanFragment extends WebViewAssetFragment {
 	}
 
 	@Override
+	protected JavaScriptInterface getJavaScriptInterface() {
+		return new JavaScriptInterface(this, webView);
+	}
+
+	@Override
 	protected String readText(String file) throws IOException {
 		Chunk c = new Chunk();
 		c.append(super.readText(file));

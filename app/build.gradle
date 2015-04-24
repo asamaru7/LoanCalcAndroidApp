@@ -33,6 +33,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.0.0'
     compile 'com.google.android.gms:play-services:7.0.0'   // admob
     compile 'com.x5dev:chunk-templates:2.6.3'   // chunk template
+    compile 'io.realm:realm-android:0.80.1' // realm : http://realm.io/kr/
 }
 
 // --------------------------------------------------------
