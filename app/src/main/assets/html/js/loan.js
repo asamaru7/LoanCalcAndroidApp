@@ -71,6 +71,41 @@
 					'loanRateAmt': ko.observable(0),	// 총 이자액(원)
 					'loanTotalAmt': ko.observable(0)	// 원금 및 총이자액 합계(원)
 				},
+				'addHistory': function () {
+					var vm = $.app.loan.vm;
+					var key = vm.type() + '-' + vm.money() + '-' + vm.rate() + '-' + vm.period() + '-' + vm.term();
+					var history = store.get('loan-history');
+					if ($.isArray(history)) {
+						for (var i = history.length - 1; i >= 0; i--) {
+							if (history[i].key == key) {
+								history.splice(i, 1);
+								console.log('duplicate remove!');
+							}
+						}
+					} else {
+						history = [];
+					}
+					var row = {
+						date: new Date(),
+						key: key,
+						money: parseFloat(vm.money()),
+						type: parseInt(vm.type()),
+						rate: parseFloat(vm.rate()),
+						period: parseInt(vm.period()),
+						loanMonth: parseInt(vm.loanMonth().replace(',', '')),
+						loanRateAmt: parseInt(vm.loanRateAmt().replace(',', '')),
+						loanTotalAmt: parseInt(vm.loanTotalAmt().replace(',', ''))
+					};
+					history.unshift(row);
+					row = null;
+					if (history.length > 100) {
+						history = history.slice(0, 100);
+					}
+					store.set('loan-history', history);
+					history = null;
+					vm = null;
+					key = null;
+				},
 				'calc': function () {
 					var loanType = parseFloat($.app.loan.vm.type()) || 0;
 					var loan = parseFloat($.app.loan.vm.money()) || 0;	// 대출원금
@@ -165,6 +200,8 @@
 
 					$.app.loan.vm.showResult(true);
 					$('body').scrollTo('.dResult');
+
+					$.app.loan.addHistory();
 				},
 				'reset': function () {
 					$.app.loan.vm.showResult(false);
@@ -187,6 +224,16 @@
 				return '원금균등상환';
 			case 3 :
 				return '원금만기일시상환';
+		}
+	});
+	$.app.loan.vm.summaryText = ko.computed(function () {
+		switch ($.app.loan.vm.type()) {
+			case 1 :
+				return '월상환금';
+			case 2 :
+				return '월납입원금';
+			case 3 :
+				return '월평균이자';
 		}
 	});
 

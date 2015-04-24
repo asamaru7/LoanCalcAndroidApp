@@ -5,7 +5,7 @@
 		'app': {
 			'util': {
 				'printNumber': function (val) {
-					if (val == 0) {
+					if ((typeof(val) == 'undefined') || (val == 0)) {
 						return "-";
 					}
 					return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");

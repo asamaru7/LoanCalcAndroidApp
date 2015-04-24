@@ -3,8 +3,21 @@
     <!--<string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string> test-->
     <string name="banner_ad_unit_id">ca-app-pub-8163803188491150/8530941826</string>
 
-    <string name="app_name">calc</string>
+    <string name="app_name">Loan Calc</string>
 
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <!-- http://www.ext.colostate.edu/pubs/farmmgt/03757.html -->
+    <!-- http://en.wikipedia.org/wiki/Bullet_loan -->
+    <!-- https://itunes.apple.com/en/app/swibgesseuneun-daechulgyesangi/id402669888?mt=8 -->
+    <!-- 대출이자계산기 : loan.html -->
+    <string-array name="i18n_loan">
+        <item>loanAmount:Loan amount</item>
+        <item>annualInterestRate:Annual interest rate</item>
+        <item>loanPeriod:Period</item>
+        <item>currency:$</item>
+        <item>month:Month</item>
+    </string-array>
+
+    <string-array name="i18n_history">
+    </string-array>
+
 </resources>

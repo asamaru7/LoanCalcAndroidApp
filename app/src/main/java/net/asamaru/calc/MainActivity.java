@@ -2,6 +2,7 @@ package net.asamaru.calc;
 
 //import net.asamaru.bootstrap.activity.HtmlActivity;
 
+import android.app.Fragment;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -18,35 +19,26 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
+import com.orhanobut.logger.Logger;
 
 import net.asamaru.bootstrap.Advisor;
 import net.asamaru.bootstrap.activity.NavigationDrawerActivity;
+import net.asamaru.calc.fragment.HistoryFragment_;
+import net.asamaru.calc.fragment.LoanFragment_;
 import net.asamaru.calc.fragment.WebViewAssetFragment;
 import net.asamaru.calc.fragment.WebViewAssetFragment_;
 
+import org.androidannotations.api.builder.FragmentBuilder;
+
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends NavigationDrawerActivity {
 	final static private List<Menu> menus = Arrays.asList(
-			(Menu) new AssetMenu("대출 이자", "loan.html",
-					new String[]{
-							"res/knockout/knockout-3.3.0.js",
-							"res/ripplejs/ripple.min.js",
-							"res/jquery-labelauty/jquery-labelauty.js",
-							"res/alertify/js/alertify.js",
-							"res/jquery-scrollTo/jquery.scrollTo.min.js",
-							"js/loan.js"},
-					new String[]{
-							"res/ripplejs/ripple.min.css",
-							"res/jquery-labelauty/jquery-labelauty.css",
-							"res/alertify/css/alertify.core.css",
-							"res/alertify/css/alertify.bootstrap.css",
-							"css/loan.css"}),
-			(Menu) new AssetMenu("계산 이력", "area.html")
-//			(Menu) new AssetMenu("예금/적금", "deposit.html"),
-//			(Menu) new AssetMenu("연봉", "salary.html"),
-//			(Menu) new AssetMenu("평형", "area.html")
+			(Menu) new FragmentMenu("대출 이자", LoanFragment_.class),
+			(Menu) new FragmentMenu("계산 이력", HistoryFragment_.class)
+//			(Menu) new AssetMenu("계산 이력", "history.html")
 	);
 
 	@Override
@@ -84,6 +76,7 @@ public class MainActivity extends NavigationDrawerActivity {
 		replaceFragmentByPosition(0);
 	}
 
+	@SuppressWarnings("unchecked")
 	private void replaceFragmentByPosition(int position) {
 		Menu menu = menus.get(position);
 		if (menu instanceof AssetMenu) {
@@ -91,6 +84,14 @@ public class MainActivity extends NavigationDrawerActivity {
 			fragment.addJs(((AssetMenu) menu).js);
 			fragment.addCss(((AssetMenu) menu).css);
 			replaceFragment(fragment);
+		} else if (menu instanceof FragmentMenu) {
+			try {
+				Method m = ((Class<?>) (((FragmentMenu) menu).fragmentClass)).getMethod("builder");
+				FragmentBuilder<?, Fragment> result = (FragmentBuilder<?, Fragment>) m.invoke(null);
+				replaceFragment(result.build());
+			} catch (Exception e) {
+				Logger.e(e);
+			}
 		}
 		getSupportActionBar().setTitle(menu.title);
 	}
@@ -160,6 +161,15 @@ public class MainActivity extends NavigationDrawerActivity {
 			this(title, path);
 			this.js = js;
 			this.css = css;
+		}
+	}
+
+	static class FragmentMenu extends Menu {
+		Class fragmentClass;
+
+		public FragmentMenu(String title, Class fragmentClass) {
+			super(title);
+			this.fragmentClass = fragmentClass;
 		}
 	}
 }

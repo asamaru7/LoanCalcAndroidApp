@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">대출이자계산기</string>
+
+    <!-- 대출이자계산기 : loan.html -->
+    <string-array name="i18n_loan">
+        <item>loanAmount:대출금</item>
+        <item>annualInterestRate:대출이자</item>
+        <item>loanPeriod:대출기간</item>
+        <item>currency:원</item>
+        <item>month:개월</item>
+    </string-array>
+
+    <string-array name="i18n_history">
+    </string-array>
+
+</resources>

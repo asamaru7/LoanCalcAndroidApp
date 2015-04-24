@@ -13,8 +13,8 @@
     <link rel="stylesheet" type="text/css" media="all" href="../../../../../externals/bootstrap/src/main/assets/html/res/alertify/css/alertify.core.css"/>
     <link rel="stylesheet" type="text/css" media="all" href="../../../../../externals/bootstrap/src/main/assets/html/res/alertify/css/alertify.bootstrap.css"/>
 
-    <link rel="stylesheet" type="text/css" media="all" href="css/loan.css"/>
     <link rel="stylesheet" type="text/css" media="all" href="css/base.css"/>
+	<link rel="stylesheet" type="text/css" media="all" href="css/loan.css"/>
 </head>
 <body>
 
@@ -166,7 +166,7 @@
             </tbody>
             <thead>
             <tr>
-                <th scope="col">월평균이자</th>
+                <th scope="col" data-bind="text: summaryText"></th>
                 <th scope="col">총 이자액</th>
                 <th scope="col" colspan="2">원금 및 총이자액</th>
             </tr>
@@ -215,6 +215,7 @@
 <script src="../../../../../externals/bootstrap/src/main/assets/html/res/jquery-labelauty/jquery-labelauty.js"></script>
 <script type="text/javascript" src="../../../../../externals/bootstrap/src/main/assets/html/res/alertify/js/alertify.min.js"></script>
 <script type="text/javascript" src="../../../../../externals/bootstrap/src/main/assets/html/res/jquery-scrollTo/jquery.scrollTo.min.js"></script>
+<script type="text/javascript" src="../../../../../externals/bootstrap/src/main/assets/html/res/storejs/store.min.js"></script>
 
 <script src="js/base.js"></script>
 <script src="js/loan.js"></script>
