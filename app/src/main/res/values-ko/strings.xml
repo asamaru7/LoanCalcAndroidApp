@@ -3,11 +3,29 @@
 
     <!-- 대출이자계산기 : loan.html -->
     <string-array name="i18n_loan">
+        <item>language:ko</item>
         <item>loanAmount:대출금</item>
+        <item>interestRate:대출금리</item>
         <item>annualInterestRate:대출이자</item>
         <item>loanPeriod:대출기간</item>
+        <item>gracePeriod:거치기간</item>
         <item>currency:원</item>
+        <item>percentYear:%</item>
         <item>month:개월</item>
+        <item>year:년</item>
+        <item>calculate:계산하기</item>
+        <item>reset:초기화</item>
+        <item>curr1:100000</item>
+        <item>curr1n:십만원</item>
+        <item>curr2:1000000</item>
+        <item>curr2n:백만원</item>
+        <item>curr3:10000000</item>
+        <item>curr3n:천만원</item>
+        <item>curr4:100000000</item>
+        <item>curr4n:일억원</item>
+        <item>PnIep:원리금균등상환</item>
+        <item>Pep:원금균등상환</item>
+        <item>BulletR:원금만기일시상환</item>
     </string-array>
 
     <string-array name="i18n_history">

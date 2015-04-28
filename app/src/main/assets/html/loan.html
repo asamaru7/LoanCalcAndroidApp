@@ -1,185 +1,197 @@
 <div class="dLoan">
-	<form class="form-horizontal">
-		<div class="form-group">
-			<label class="col-xs-3 control-label">대출금</label>
+    <form class="form-horizontal">
+        <div class="form-group">
+            <label class="col-xs-3 control-label">{$loanAmount}</label>
 
-			<div class="col-xs-9">
-				<div class="input-group">
-					<input type="number" id="pMoney" class="form-control" data-bind="value: money"/>
+            <div class="col-xs-9">
+                <div class="input-group">
+                    {% if ($language == "en") %}
+                    <div class="input-group-addon">{$currency}</div>
+                    {% endif %}
+                    <input type="number" id="pMoney" class="form-control" data-bind="value: money"/>
+                    {% if ($language == "ko") %}
+                    <div class="input-group-addon">{$currency}</div>
+                    {% endif %}
+                </div>
+                <div class="dUtilBtn">
+                    <button type="button" tabindex="-1" class="btn btn-default btn-sm" onclick="$.app.loan.vm.money((parseFloat($.app.loan.vm.money()) || 0) + {$curr1});">{$curr1n}</button>
+                    <button type="button" tabindex="-1" class="btn btn-default btn-sm" onclick="$.app.loan.vm.money((parseFloat($.app.loan.vm.money()) || 0) + {$curr2});">{$curr2n}</button>
+                    <button type="button" tabindex="-1" class="btn btn-default btn-sm" onclick="$.app.loan.vm.money((parseFloat($.app.loan.vm.money()) || 0) + {$curr3});">{$curr3n}</button>
+                    <button type="button" tabindex="-1" class="btn btn-default btn-sm" onclick="$.app.loan.vm.money((parseFloat($.app.loan.vm.money()) || 0) + {$curr4});">{$curr4n}</button>
+                </div>
+                {% if ($language == "ko") %}
+                <span class="help-block text-right dWon" data-bind="visible: moneyText() != ''"><span class="text-danger" data-bind="text: moneyText"></span>원</span>
+                {% endif %}
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">{$interestRate}</label>
 
-					<div class="input-group-addon">만원</div>
-				</div>
-				<div class="dUtilBtn">
-					<button type="button" tabindex="-1" class="btn btn-default btn-sm" onclick="$.app.loan.vm.money((parseFloat($.app.loan.vm.money()) || 0) + 100000);">십만원</button>
-					<button type="button" tabindex="-1" class="btn btn-default btn-sm" onclick="$.app.loan.vm.money((parseFloat($.app.loan.vm.money()) || 0) + 1000000);">백만원</button>
-					<button type="button" tabindex="-1" class="btn btn-default btn-sm" onclick="$.app.loan.vm.money((parseFloat($.app.loan.vm.money()) || 0) + 10000000);">천만원</button>
-					<button type="button" tabindex="-1" class="btn btn-default btn-sm" onclick="$.app.loan.vm.money((parseFloat($.app.loan.vm.money()) || 0) + 100000000);">일억원</button>
-				</div>
-				<span class="help-block text-right dWon" data-bind="visible: moneyText() != ''"><span class="text-danger" data-bind="text: moneyText"></span>원</span>
-			</div>
-		</div>
-		<div class="form-group">
-			<label class="col-xs-3 control-label">대출금리</label>
+            <div class="col-xs-9">
+                <div class="input-group">
+                    {% if ($language == "ko") %}
+                    <div class="input-group-addon">연</div>
+                    {% endif %}
+                    <input type="number" id="pRate" class="form-control" data-bind="value: rate"/>
 
-			<div class="col-xs-9">
-				<div class="input-group">
-					<div class="input-group-addon">연</div>
-					<input type="number" id="pRate" class="form-control" data-bind="value: rate"/>
+                    <div class="input-group-addon">{$percentYear}</div>
+                </div>
+                <div class="dUtilBtn">
+                    <button type="button" tabindex="-1" class="btn btn-default btn-sm" onclick="$.app.loan.vm.rate(2.0);">2%</button>
+                    <button type="button" tabindex="-1" class="btn btn-default btn-sm" onclick="$.app.loan.vm.rate(3.0);">3%</button>
+                    <button type="button" tabindex="-1" class="btn btn-default btn-sm" onclick="$.app.loan.vm.rate(4.0);">4%</button>
+                    <button type="button" tabindex="-1" class="btn btn-default btn-sm" onclick="$.app.loan.vm.rate(5.0);">5%</button>
+                    <button type="button" tabindex="-1" class="btn btn-default btn-sm" onclick="$.app.loan.vm.rate(6.0);">6%</button>
+                    <button type="button" tabindex="-1" class="btn btn-default btn-sm" onclick="$.app.loan.vm.rate(7.0);">7%</button>
+                    <button type="button" tabindex="-1" class="btn btn-default btn-sm" onclick="$.app.loan.vm.rate(10.0);">10%</button>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">{$loanPeriod}</label>
 
-					<div class="input-group-addon">%</div>
-				</div>
-				<div class="dUtilBtn">
-					<button type="button" tabindex="-1" class="btn btn-default btn-sm" onclick="$.app.loan.vm.rate(2.0);">2%</button>
-					<button type="button" tabindex="-1" class="btn btn-default btn-sm" onclick="$.app.loan.vm.rate(3.0);">3%</button>
-					<button type="button" tabindex="-1" class="btn btn-default btn-sm" onclick="$.app.loan.vm.rate(4.0);">4%</button>
-					<button type="button" tabindex="-1" class="btn btn-default btn-sm" onclick="$.app.loan.vm.rate(5.0);">5%</button>
-					<button type="button" tabindex="-1" class="btn btn-default btn-sm" onclick="$.app.loan.vm.rate(6.0);">6%</button>
-					<button type="button" tabindex="-1" class="btn btn-default btn-sm" onclick="$.app.loan.vm.rate(7.0);">7%</button>
-					<button type="button" tabindex="-1" class="btn btn-default btn-sm" onclick="$.app.loan.vm.rate(10.0);">10%</button>
-				</div>
-			</div>
-		</div>
-		<div class="form-group">
-			<label class="col-xs-3 control-label">대출기간</label>
+            <div class="col-xs-9">
+                <div class="input-group">
+                    <input type="number" id="pPeriod" class="form-control" data-bind="value: period"/>
 
-			<div class="col-xs-9">
-				<div class="input-group">
-					<input type="number" id="pPeriod" class="form-control" data-bind="value: period"/>
+                    <div class="input-group-addon">{$month}</div>
+                </div>
+                <div class="dUtilBtn">
+                    <button type="button" tabindex="-1" class="btn btn-default btn-sm" onclick="$.app.loan.vm.period(12);">1{$year}</button>
+                    <button type="button" tabindex="-1" class="btn btn-default btn-sm" onclick="$.app.loan.vm.period(24);">2{$year}</button>
+                    <button type="button" tabindex="-1" class="btn btn-default btn-sm" onclick="$.app.loan.vm.period(36);">3{$year}</button>
+                    <button type="button" tabindex="-1" class="btn btn-default btn-sm" onclick="$.app.loan.vm.period(48);">4{$year}</button>
+                    <button type="button" tabindex="-1" class="btn btn-default btn-sm" onclick="$.app.loan.vm.period(60);">5{$year}</button>
+                    <button type="button" tabindex="-1" class="btn btn-default btn-sm" onclick="$.app.loan.vm.period(120);">10{$year}</button>
+                    <button type="button" tabindex="-1" class="btn btn-default btn-sm" onclick="$.app.loan.vm.period(240);">20{$year}</button>
+                    <button type="button" tabindex="-1" class="btn btn-default btn-sm" onclick="$.app.loan.vm.period(360);">30{$year}</button>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">{$gracePeriod}</label>
 
-					<div class="input-group-addon">개월</div>
-				</div>
-				<div class="dUtilBtn">
-					<button type="button" tabindex="-1" class="btn btn-default btn-sm" onclick="$.app.loan.vm.period(12);">1년</button>
-					<button type="button" tabindex="-1" class="btn btn-default btn-sm" onclick="$.app.loan.vm.period(24);">2년</button>
-					<button type="button" tabindex="-1" class="btn btn-default btn-sm" onclick="$.app.loan.vm.period(36);">3년</button>
-					<button type="button" tabindex="-1" class="btn btn-default btn-sm" onclick="$.app.loan.vm.period(48);">4년</button>
-					<button type="button" tabindex="-1" class="btn btn-default btn-sm" onclick="$.app.loan.vm.period(60);">5년</button>
-					<button type="button" tabindex="-1" class="btn btn-default btn-sm" onclick="$.app.loan.vm.period(120);">10년</button>
-					<button type="button" tabindex="-1" class="btn btn-default btn-sm" onclick="$.app.loan.vm.period(240);">20년</button>
-					<button type="button" tabindex="-1" class="btn btn-default btn-sm" onclick="$.app.loan.vm.period(360);">30년</button>
-				</div>
-			</div>
-		</div>
-		<div class="form-group">
-			<label class="col-xs-3 control-label">거치기간</label>
+            <div class="col-xs-9">
+                <div class="input-group">
+                    <input type="number" id="pTerm" class="form-control" data-bind="value: term"/>
 
-			<div class="col-xs-9">
-				<div class="input-group">
-					<input type="number" id="pTerm" class="form-control" data-bind="value: term"/>
+                    <div class="input-group-addon">{$month}</div>
+                </div>
+                <div class="dUtilBtn">
+                    <button type="button" tabindex="-1" class="btn btn-default btn-sm" onclick="$.app.loan.vm.term(12);">1{$year}</button>
+                    <button type="button" tabindex="-1" class="btn btn-default btn-sm" onclick="$.app.loan.vm.term(24);">2{$year}</button>
+                    <button type="button" tabindex="-1" class="btn btn-default btn-sm" onclick="$.app.loan.vm.term(36);">3{$year}</button>
+                    <button type="button" tabindex="-1" class="btn btn-default btn-sm" onclick="$.app.loan.vm.term(48);">4{$year}</button>
+                    <button type="button" tabindex="-1" class="btn btn-default btn-sm" onclick="$.app.loan.vm.term(60);">5{$year}</button>
+                </div>
+                {% if ($language == "ko") %}
+                <div class="dHelp text-info">
+                    거치기간동안 이자만 납부하고, 거치기간이 끝나면 원금+이자를 납부하게 됩니다.
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </form>
 
-					<div class="input-group-addon">개월</div>
-				</div>
-				<div class="dUtilBtn">
-					<button type="button" tabindex="-1" class="btn btn-default btn-sm" onclick="$.app.loan.vm.term(12);">1년</button>
-					<button type="button" tabindex="-1" class="btn btn-default btn-sm" onclick="$.app.loan.vm.term(24);">2년</button>
-					<button type="button" tabindex="-1" class="btn btn-default btn-sm" onclick="$.app.loan.vm.term(36);">3년</button>
-					<button type="button" tabindex="-1" class="btn btn-default btn-sm" onclick="$.app.loan.vm.term(48);">4년</button>
-					<button type="button" tabindex="-1" class="btn btn-default btn-sm" onclick="$.app.loan.vm.term(60);">5년</button>
-				</div>
-				<div class="dHelp text-info">
-					거치기간동안 이자만 납부하고, 거치기간이 끝나면 원금+이자를 납부하게 됩니다.
-				</div>
-			</div>
-		</div>
-	</form>
+    <div class="form-group">
+        <div class="text-center">
+            <button type="button" class="btn btn-primary" onclick="$.app.loan.calc();">{$calculate}</button>
+            <button type="button" class="btn btn-danger" onclick="$.app.loan.reset();">{$reset}</button>
+        </div>
+    </div>
 
-	<div class="form-group">
-		<div class="text-center">
-			<button type="button" class="btn btn-primary" onclick="$.app.loan.calc();">계산하기</button>
-			<button type="button" class="btn btn-danger" onclick="$.app.loan.reset();">초기화</button>
-		</div>
-	</div>
+    <div class="dResult" data-bind="visible : showResult">
+        {% if ($language == "ko") %}
+        <div class="panel panel-danger">
+            <div class="panel-heading"><i class="glyphicon glyphicon-star"></i> 주의사항</div>
+            <div class="panel-body">
+                계산 결과는 월 단위로 계산한 것으로 실제 대출 시작 일자에 따른 일할 계산과 기타 다른 조건에 따른 오차가 있을 수 있으므로 참고용으로만 사용하세요.
+            </div>
+        </div>
+        {% endif %}
 
-	<div class="dResult" data-bind="visible : showResult">
-		<div class="panel panel-danger">
-			<div class="panel-heading"><i class="glyphicon glyphicon-star"></i> 주의사항</div>
-			<div class="panel-body">
-				계산 결과는 월 단위로 계산한 것으로 실제 대출 시작 일자에 따른 일할 계산과 기타 다른 조건에 따른 오차가 있을 수 있으므로 참고용으로만 사용하세요.
-			</div>
-		</div>
+        <ul class="nav nav-tabs">
+            <li role="presentation" data-bind="css: { active : type() == 1 }"><a href="javascript:void(0)" onclick="$.app.loan.vm.type(1);">{$PnIep}</a></li>
+            <li role="presentation" data-bind="css: { active : type() == 2 }"><a href="javascript:void(0)" onclick="$.app.loan.vm.type(2);">{$Pep}</a></li>
+            <li role="presentation" data-bind="css: { active : type() == 3 }"><a href="javascript:void(0)" onclick="$.app.loan.vm.type(3);">{$BulletR}</a></li>
+        </ul>
+        <div data-bind="visible : type() == 1">
+            <div class="panel panel-primary">
+                <div class="panel-body">
+                    가장 일반적인 방법으로, 원금과 이자를 합한 상환금액이 매달 동일합니다.
+                </div>
+            </div>
+        </div>
+        <div data-bind="visible : type() == 2">
+            <div class="panel panel-primary">
+                <div class="panel-body">
+                    매달 원금을 동일하게 상환하므로, 이자는 매달 줄어들게 됩니다. 단, 매달 이자가 다르므로 원금과 이자를 합한 상환금액도 매달 달라집니다.
+                </div>
+            </div>
+        </div>
+        <div data-bind="visible : type() == 3">
+            <div class="panel panel-primary">
+                <div class="panel-body">
+                    대출기간동안 매달 이자만 상환하하고, 대출 만기일에 원금을 일시상환 합니다.
+                </div>
+            </div>
+        </div>
 
-		<ul class="nav nav-tabs">
-			<li role="presentation" data-bind="css: { active : type() == 1 }"><a href="javascript:void(0)" onclick="$.app.loan.vm.type(1);">원리금균등상환</a></li>
-			<li role="presentation" data-bind="css: { active : type() == 2 }"><a href="javascript:void(0)" onclick="$.app.loan.vm.type(2);">원금균등상환</a></li>
-			<li role="presentation" data-bind="css: { active : type() == 3 }"><a href="javascript:void(0)" onclick="$.app.loan.vm.type(3);">원금만기일시상환</a></li>
-		</ul>
-		<div data-bind="visible : type() == 1">
-			<div class="panel panel-primary">
-				<div class="panel-body">
-					가장 일반적인 방법으로, 원금과 이자를 합한 상환금액이 매달 동일합니다.
-				</div>
-			</div>
-		</div>
-		<div data-bind="visible : type() == 2">
-			<div class="panel panel-primary">
-				<div class="panel-body">
-					매달 원금을 동일하게 상환하므로, 이자는 매달 줄어들게 됩니다. 단, 매달 이자가 다르므로 원금과 이자를 합한 상환금액도 매달 달라집니다.
-				</div>
-			</div>
-		</div>
-		<div data-bind="visible : type() == 3">
-			<div class="panel panel-primary">
-				<div class="panel-body">
-					대출기간동안 매달 이자만 상환하하고, 대출 만기일에 원금을 일시상환 합니다.
-				</div>
-			</div>
-		</div>
+        <table class="table table-bordered table-condensed dSummary" summary="상환방법, 대출원금(원), 대출기간, 거치기간, 대출이율, 월평균이자(원), 총 이자액(원), 원금 및 총이자액 합계(원) 제공">
+            <caption><span data-bind="text: typeText"></span> 계산결과</caption>
+            <thead>
+            <tr>
+                <th scope="col">대출원금</th>
+                <th scope="col">대출기간</th>
+                <th scope="col">대출이율</th>
+                <th scope="col">거치기간</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><span data-bind="text: $.app.util.printNumber(money())"></span></td>
+                <td><span data-bind="text: period"></span>개월</td>
+                <td><span data-bind="text: rate"></span>%</td>
+                <td><span data-bind="text: term"></span>개월</td>
+            </tr>
+            </tbody>
+            <thead>
+            <tr>
+                <th scope="col" data-bind="text: summaryText"></th>
+                <th scope="col">총 이자액</th>
+                <th scope="col" colspan="2">원금 및 총이자액</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><span data-bind="text: loanMonth"></span></td>
+                <td><span data-bind="text: loanRateAmt"></span></td>
+                <td colspan="2"><span data-bind="text: loanTotalAmt"></span></td>
+            </tr>
+            </tbody>
+        </table>
 
-		<table class="table table-bordered table-condensed dSummary" summary="상환방법, 대출원금(원), 대출기간, 거치기간, 대출이율, 월평균이자(원), 총 이자액(원), 원금 및 총이자액 합계(원) 제공">
-			<caption><span data-bind="text: typeText"></span> 계산결과</caption>
-			<thead>
-			<tr>
-				<th scope="col">대출원금</th>
-				<th scope="col">대출기간</th>
-				<th scope="col">대출이율</th>
-				<th scope="col">거치기간</th>
-			</tr>
-			</thead>
-			<tbody>
-			<tr>
-				<td><span data-bind="text: $.app.util.printNumber(money())"></span></td>
-				<td><span data-bind="text: period"></span>개월</td>
-				<td><span data-bind="text: rate"></span>%</td>
-				<td><span data-bind="text: term"></span>개월</td>
-			</tr>
-			</tbody>
-			<thead>
-			<tr>
-				<th scope="col" data-bind="text: summaryText"></th>
-				<th scope="col">총 이자액</th>
-				<th scope="col" colspan="2">원금 및 총이자액</th>
-			</tr>
-			</thead>
-			<tbody>
-			<tr>
-				<td><span data-bind="text: loanMonth"></span></td>
-				<td><span data-bind="text: loanRateAmt"></span></td>
-				<td colspan="2"><span data-bind="text: loanTotalAmt"></span></td>
-			</tr>
-			</tbody>
-		</table>
-
-		<table class="table table-striped table-bordered table-condensed dRows">
-			<thead>
-			<tr>
-				<th>회차</th>
-				<th>상환금</th>
-				<th>납입원금</th>
-				<th>이자</th>
-				<th>납입원금계</th>
-				<th>잔금</th>
-			</tr>
-			</thead>
-			<tbody data-bind="foreach: rows">
-			<tr>
-				<td data-bind="text: num"></td>
-				<td data-bind="text: payments"></td>
-				<td data-bind="text: principal"></td>
-				<td data-bind="text: interest"></td>
-				<td data-bind="text: total"></td>
-				<td data-bind="text: balance"></td>
-			</tr>
-			</tbody>
-		</table>
-	</div>
+        <table class="table table-striped table-bordered table-condensed dRows">
+            <thead>
+            <tr>
+                <th>회차</th>
+                <th>상환금</th>
+                <th>납입원금</th>
+                <th>이자</th>
+                <th>납입원금계</th>
+                <th>잔금</th>
+            </tr>
+            </thead>
+            <tbody data-bind="foreach: rows">
+            <tr>
+                <td data-bind="text: num"></td>
+                <td data-bind="text: payments"></td>
+                <td data-bind="text: principal"></td>
+                <td data-bind="text: interest"></td>
+                <td data-bind="text: total"></td>
+                <td data-bind="text: balance"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>

@@ -1,20 +1,55 @@
 <resources>
     <!-- AdMob -->
     <!--<string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string> test-->
-    <string name="banner_ad_unit_id">ca-app-pub-8163803188491150/8530941826</string>
+    <string name="banner_ad_unit_id" translatable="false">ca-app-pub-8163803188491150/8530941826</string>
 
     <string name="app_name">Loan Calc</string>
 
     <!-- http://www.ext.colostate.edu/pubs/farmmgt/03757.html -->
     <!-- http://en.wikipedia.org/wiki/Bullet_loan -->
     <!-- https://itunes.apple.com/en/app/swibgesseuneun-daechulgyesangi/id402669888?mt=8 -->
+    <!--
+Simple and intuitive interface with this calculator, everyone may calculate followings without the knowledge on complicated equation or terms.
+
+calculation of for each type (5 types) of loan
+
+★★★★★ types of loan payment ★★★★★
+
+✔ repayment of principal and interest with equal payments
+✔ repayment of principal with equal payments
+✔ bullet repayment
+✔ deferred equal installment repayment of principal and interest
+✔ deferred equal installment repayment of principal
+
+★★★★★★★★★★★★★★★★★★★★★★★
+
+☛ You can calculate all the answers you want know without financial knowledge with the calculator.
+    -->
     <!-- 대출이자계산기 : loan.html -->
     <string-array name="i18n_loan">
+        <item>language:en</item>
         <item>loanAmount:Loan amount</item>
+        <item>interestRate:Interest Rate</item>
         <item>annualInterestRate:Annual interest rate</item>
         <item>loanPeriod:Period</item>
+        <item>gracePeriod:Grace Period</item>
         <item>currency:$</item>
+        <item>percentYear:% per year</item>
         <item>month:Month</item>
+        <item>year:y</item>
+        <item>calculate:Calculate</item>
+        <item>reset:Reset</item>
+        <item>curr1:1000</item>
+        <item>curr1n:1k</item>
+        <item>curr2:10000</item>
+        <item>curr2n:10k</item>
+        <item>curr3:100000</item>
+        <item>curr3n:100k</item>
+        <item>curr4:1000000</item>
+        <item>curr4n:1m</item>
+        <item>PnIep:P&amp;I with equal payments</item>
+        <item>Pep: P with equal payments</item>
+        <item>BulletR:Bullet repayment</item>
     </string-array>
 
     <string-array name="i18n_history">
