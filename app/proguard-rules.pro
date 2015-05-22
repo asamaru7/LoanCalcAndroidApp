@@ -30,6 +30,16 @@
 -dontwarn javax.**
 -dontwarn io.realm.**
 
+# chunk
+-dontwarn  com.x5.**
+-keep class org.cheffo.** {*;}
+-keep class sun.misc.** {*;}
+-keep class com.madrobot.** {*;}
+-keep class net.minidev.json.** {*;}
+-keep class com.x5.template.** { *; }
+-keep class net.minidev.** { *; }
+-keep class com.x5.util.** { *; }
+
 # -------------------------------------------------------
 # bootstrap
 
