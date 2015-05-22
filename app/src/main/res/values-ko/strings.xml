@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">대출이자</string>
+    <string name="loanCalc">대출이자 계산기</string>
 
     <!-- 대출이자계산기 : loan.html -->
     <string-array name="i18n_loan">

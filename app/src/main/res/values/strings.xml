@@ -4,6 +4,8 @@
     <string name="banner_ad_unit_id" translatable="false">ca-app-pub-8163803188491150/8530941826</string>
 
     <string name="app_name">Loan Calc</string>
+    <string name="loanCalc">Loan Calculator</string>
+    <string name="calcHist">Calculation history</string>
 
     <!-- http://www.ext.colostate.edu/pubs/farmmgt/03757.html -->
     <!-- http://en.wikipedia.org/wiki/Bullet_loan -->

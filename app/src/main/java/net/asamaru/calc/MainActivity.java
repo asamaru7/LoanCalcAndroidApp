@@ -38,8 +38,8 @@ import java.util.List;
 
 public class MainActivity extends NavigationDrawerActivity {
 	final static private List<Menu> menus = Arrays.asList(
-			(Menu) new FragmentMenu("대출 이자", LoanFragment_.class),
-			(Menu) new FragmentMenu("계산 이력", HistoryFragment_.class)
+			(Menu) new FragmentMenu(Advisor.getResources().getString(R.string.loanCalc), LoanFragment_.class),
+			(Menu) new FragmentMenu(Advisor.getResources().getString(R.string.calcHist), HistoryFragment_.class)
 //			(Menu) new AssetMenu("계산 이력", "history.html")
 	);
 
@@ -141,27 +141,27 @@ public class MainActivity extends NavigationDrawerActivity {
 		});
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(android.view.Menu menu) {
-		if (Advisor.isDebugable()) {
-			MenuItem item1 = menu.add(0, 0, 0, "Reload");
-//				item1.setAlphabeticShortcut('a');
-			item1.setIcon(android.R.drawable.btn_default_small);
-			item1.setShowAsAction(MenuItem.SHOW_AS_ACTION_WITH_TEXT | MenuItem.SHOW_AS_ACTION_IF_ROOM);
-		}
-		return super.onCreateOptionsMenu(menu);
-	}
+//	@Override
+//	public boolean onCreateOptionsMenu(android.view.Menu menu) {
+//		if (Advisor.isDebugable()) {
+//			MenuItem item1 = menu.add(0, 0, 0, "Reload");
+////				item1.setAlphabeticShortcut('a');
+//			item1.setIcon(android.R.drawable.btn_default_small);
+//			item1.setShowAsAction(MenuItem.SHOW_AS_ACTION_WITH_TEXT | MenuItem.SHOW_AS_ACTION_IF_ROOM);
+//		}
+//		return super.onCreateOptionsMenu(menu);
+//	}
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		CharSequence title = item.getTitle();
-		if ((title != null) && (title.toString().equals("Reload"))) {
-			if (activeFragment instanceof WebViewAssetFragment) {
-				((WebViewAssetFragment) activeFragment).reloadHtml();
-			}
-		}
-		return super.onOptionsItemSelected(item);
-	}
+//	@Override
+//	public boolean onOptionsItemSelected(MenuItem item) {
+//		CharSequence title = item.getTitle();
+//		if ((title != null) && (title.toString().equals("Reload"))) {
+//			if (activeFragment instanceof WebViewAssetFragment) {
+//				((WebViewAssetFragment) activeFragment).reloadHtml();
+//			}
+//		}
+//		return super.onOptionsItemSelected(item);
+//	}
 
 	abstract static class Menu {
 		String title;
