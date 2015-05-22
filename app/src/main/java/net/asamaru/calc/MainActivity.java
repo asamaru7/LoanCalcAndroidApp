@@ -97,7 +97,10 @@ public class MainActivity extends NavigationDrawerActivity {
 				Logger.e(e);
 			}
 		}
-		getSupportActionBar().setTitle(menu.title);
+		android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+		if (actionBar != null) {
+			actionBar.setTitle(menu.title);
+		}
 	}
 
 	protected ListAdapter getListAdapter(ListView listView) {
