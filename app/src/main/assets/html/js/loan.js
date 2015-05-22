@@ -60,6 +60,7 @@
 		'app': {
 			'loan': {
 				'vm': {
+					'language': ko.observable('ko'),
 					'showResult': ko.observable(false),
 					'money': ko.observable(''),
 					'rate': ko.observable(''),
@@ -109,34 +110,34 @@
 					var loanRate = (parseFloat($.app.loan.vm.rate()) || 0) / 100;	//금리 계산위해 소수점값으로 변경;	// 대출금리
 
 					if (loan <= 0) {
-						alertify.error("대출금을 입력해 주세요.");
+						alertify.error(($.app.loan.vm.language() == 'ko') ? "대출금을 입력해 주세요." : 'Required Value!');
 						$.app.util.focus($('#pMoney'));
 						return;
 					} else if (loan > 1000000000) {
-						alertify.error("대출금을 10억 이하로 입력해 주세요.");
+						alertify.error(($.app.loan.vm.language() == 'ko') ? "대출금을 10억 이하로 입력해 주세요." : 'Max 1000000000');
 						$.app.util.focus($('#pMoney'));
 						return;
 					}
 					if (loanRate <= 0) {
-						alertify.error("대출금리를 입력해 주세요.");
+						alertify.error(($.app.loan.vm.language() == 'ko') ? "대출금리를 입력해 주세요." : 'Required Value!');
 						$.app.util.focus($('#pRate'));
 						return;
-					} else if (loanRate > 30) {
-						alertify.error("대출금리를 30%이하로 입력해 주세요.");
+					} else if (($.app.loan.vm.language() == 'ko')  && (loanRate > 100)) {
+						alertify.error(($.app.loan.vm.language() == 'ko') ? "대출금리를 100%이하로 입력해 주세요." : 'Max 100%');
 						$.app.util.focus($('#pRate'));
 						return;
 					}
 					if (loanPeriod <= 0) {
-						alertify.error("대출기간을 입력해 주세요.");
+						alertify.error(($.app.loan.vm.language() == 'ko') ? "대출기간을 입력해 주세요." : 'Required Value!');
 						$.app.util.focus($('#pPeriod'));
 						return;
 					} else if (loanPeriod > 420) {
-						alertify.error("대출기간을 420개월 이하로 입력해 주세요.");
+						alertify.error(($.app.loan.vm.language() == 'ko') ? "대출기간을 420개월 이하로 입력해 주세요." : 'Max 420');
 						$.app.util.focus($('#pPeriod'));
 						return;
 					}
 					if (loanPeriod <= loanTerm) {
-						alertify.error("거치기간이 대출기간보다 크거나 같을 수 없습니다.");
+						alertify.error(($.app.loan.vm.language() == 'ko') ? "거치기간이 대출기간보다 크거나 같을 수 없습니다." : 'Wrong Value!');
 						$.app.util.focus($('#pTerm'));
 						return;
 					}
@@ -212,24 +213,48 @@
 		$.app.loan.calc();
 	});
 	$.app.loan.vm.typeText = ko.computed(function () {
-		switch ($.app.loan.vm.type()) {
-			case 1 :
-				return '원리금균등상환';
-			case 2 :
-				return '원금균등상환';
-			case 3 :
-				return '원금만기일시상환';
+		if ($.app.loan.vm.language() == 'ko') {
+			switch ($.app.loan.vm.type()) {
+    			case 1 :
+    				return '원리금균등상환';
+    			case 2 :
+    				return '원금균등상환';
+    			case 3 :
+    				return '원금만기일시상환';
+    		}
+		} else {
+			switch ($.app.loan.vm.type()) {
+				case 1 :
+					return 'P&I with equal payments';
+				case 2 :
+					return 'P with equal payments';
+				case 3 :
+					return 'Bullet repayment';
+			}
 		}
+		return '';
 	});
 	$.app.loan.vm.summaryText = ko.computed(function () {
-		switch ($.app.loan.vm.type()) {
-			case 1 :
-				return '월상환금';
-			case 2 :
-				return '월납입원금';
-			case 3 :
-				return '월평균이자';
+		if ($.app.loan.vm.language() == 'ko') {
+			switch ($.app.loan.vm.type()) {
+				case 1 :
+					return '월상환금';
+				case 2 :
+					return '월납입원금';
+				case 3 :
+					return '월평균이자';
+			}
+		} else {
+			switch ($.app.loan.vm.type()) {
+				case 1 :
+					return 'Monthly Payments';
+				case 2 :
+					return 'Monthly Principal Payment';
+				case 3 :
+					return 'Monthly Average Interest';
+			}
 		}
+		return '';
 	});
 
 	$.app.loan.vm.moneyText = ko.computed(function () {

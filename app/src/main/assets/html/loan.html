@@ -118,48 +118,60 @@
         <div data-bind="visible : type() == 1">
             <div class="panel panel-primary">
                 <div class="panel-body">
+                    {% if ($language == "ko") %}
                     가장 일반적인 방법으로, 원금과 이자를 합한 상환금액이 매달 동일합니다.
+                    {% else %}
+                    repayment of principal and interest with equal payments
+                    {% endif %}
                 </div>
             </div>
         </div>
         <div data-bind="visible : type() == 2">
             <div class="panel panel-primary">
                 <div class="panel-body">
+                    {% if ($language == "ko") %}
                     매달 원금을 동일하게 상환하므로, 이자는 매달 줄어들게 됩니다. 단, 매달 이자가 다르므로 원금과 이자를 합한 상환금액도 매달 달라집니다.
+                    {% else %}
+                    repayment of principal with equal payments
+                    {% endif %}
                 </div>
             </div>
         </div>
         <div data-bind="visible : type() == 3">
             <div class="panel panel-primary">
                 <div class="panel-body">
+                    {% if ($language == "ko") %}
                     대출기간동안 매달 이자만 상환하하고, 대출 만기일에 원금을 일시상환 합니다.
+                    {% else %}
+                    bullet repayment
+                    {% endif %}
                 </div>
             </div>
         </div>
 
-        <table class="table table-bordered table-condensed dSummary" summary="상환방법, 대출원금(원), 대출기간, 거치기간, 대출이율, 월평균이자(원), 총 이자액(원), 원금 및 총이자액 합계(원) 제공">
-            <caption><span data-bind="text: typeText"></span> 계산결과</caption>
+        <table class="table table-bordered table-condensed dSummary">
+            <caption><span data-bind="text: typeText"></span> {$Result}</caption>
             <thead>
             <tr>
-                <th scope="col">대출원금</th>
-                <th scope="col">대출기간</th>
-                <th scope="col">대출이율</th>
-                <th scope="col">거치기간</th>
+                <th scope="col">{$loanAmount}</th>
+                <th scope="col">{$loanPeriod}</th>
+                <th scope="col">{$interestRate}</th>
+                <th scope="col">{$gracePeriod}</th>
             </tr>
             </thead>
             <tbody>
             <tr>
                 <td><span data-bind="text: $.app.util.printNumber(money())"></span></td>
-                <td><span data-bind="text: period"></span>개월</td>
+                <td><span data-bind="text: period"></span>{$month}</td>
                 <td><span data-bind="text: rate"></span>%</td>
-                <td><span data-bind="text: term"></span>개월</td>
+                <td><span data-bind="text: term"></span>{$month}</td>
             </tr>
             </tbody>
             <thead>
             <tr>
                 <th scope="col" data-bind="text: summaryText"></th>
-                <th scope="col">총 이자액</th>
-                <th scope="col" colspan="2">원금 및 총이자액</th>
+                <th scope="col">{$TotalInterest}</th>
+                <th scope="col" colspan="2">{$TotalPrincipalAndInterest}</th>
             </tr>
             </thead>
             <tbody>
@@ -174,12 +186,12 @@
         <table class="table table-striped table-bordered table-condensed dRows">
             <thead>
             <tr>
-                <th>회차</th>
-                <th>상환금</th>
-                <th>납입원금</th>
-                <th>이자</th>
-                <th>납입원금계</th>
-                <th>잔금</th>
+                <th>{$Num}</th>
+                <th>{$Payment}</th>
+                <th>{$Principal}</th>
+                <th>{$Interest}</th>
+                <th>{$TotalPrincipalPaid}</th>
+                <th>{$Balance}</th>
             </tr>
             </thead>
             <tbody data-bind="foreach: rows">

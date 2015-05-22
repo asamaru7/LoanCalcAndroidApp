@@ -5,32 +5,32 @@
             <div class="clearfix dTtl">
                 <div class="pull-left"><!-- {$i}. -->{$his.type} ({$his.date})</div>
                 <div class="pull-right">
-                    <button type="button" class="btn btn-sm btn-primary" onclick="$.app.history.reCalcByKey('{$his.key}');">상세보기</button>
-                    <button type="button" class="btn btn-sm btn-danger" onclick="$.app.history.removeByKey('{$his.key}', '{$his.id}');">삭제</button>
+                    <button type="button" class="btn btn-sm btn-primary" onclick="$.app.history.reCalcByKey('{$his.key}');">{$Detail}</button>
+                    <button type="button" class="btn btn-sm btn-danger" onclick="$.app.history.removeByKey('{$his.key}', '{$his.id}');">{$Delete}</button>
                 </div>
             </div>
             <table class="table table-bordered table-condensed dSummary">
                 <thead>
                 <tr>
-                    <th scope="col">대출원금</th>
-                    <th scope="col">대출기간</th>
-                    <th scope="col">대출이율</th>
-                    <th scope="col">거치기간</th>
+                    <th scope="col">{$loanAmount}</th>
+                    <th scope="col">{$loanPeriod}</th>
+                    <th scope="col">{$interestRate}</th>
+                    <th scope="col">{$gracePeriod}</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
                     <td>{$his.money}</td>
-                    <td>{$his.period}개월</td>
+                    <td>{$his.period}{$month}</td>
                     <td>{$his.rate}%</td>
-                    <td>{$his.term}개월</td>
+                    <td>{$his.term}{$month}</td>
                 </tr>
                 </tbody>
                 <thead>
                 <tr>
                     <th scope="col">{$his.suumaryText}</th>
-                    <th scope="col">총 이자액</th>
-                    <th scope="col" colspan="2">원금 및 총이자액</th>
+                    <th scope="col">{$TotalInterest}</th>
+                    <th scope="col" colspan="2">{$TotalPrincipalAndInterest}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -44,9 +44,9 @@
         </li>
         {% onEmpty %}
         <li class="panel panel-danger">
-            <div class="panel-heading"><i class="glyphicon glyphicon-star"></i> 안내</div>
+            <div class="panel-heading"><i class="glyphicon glyphicon-star"></i> {$Information}</div>
             <div class="panel-body">
-                계산된 이력이 없습니다.
+                {$EmptyHistory}
             </div>
         </li>
         {% endloop %}

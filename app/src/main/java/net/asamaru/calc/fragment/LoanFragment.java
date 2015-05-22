@@ -2,6 +2,7 @@ package net.asamaru.calc.fragment;
 
 import com.x5.template.Chunk;
 
+import net.asamaru.bootstrap.Advisor;
 import net.asamaru.calc.R;
 
 import org.androidannotations.annotations.EFragment;
@@ -57,18 +58,21 @@ public class LoanFragment extends WebViewAssetFragment {
 	@Override
 	protected String getFooter() {
 		String footer = super.getFooter();
+		footer += "<script type=\"text/javascript\">";
+		footer += "$.app.loan.vm.language('" + Advisor.getResources().getString(R.string.language) + "');";
 		if (key != null) {
 			String[] args = key.split(":");
 			if (args.length >= 5) {
-				footer += "<script type=\"text/javascript\"> $(function () { $.app.loan.calcByArgs(";
+				footer += "$(function () { $.app.loan.calcByArgs(";
 				footer += "parseInt('" + args[0] + "'),";
 				footer += "parseFloat('" + args[1] + "'),";
 				footer += "parseFloat('" + args[2] + "'),";
 				footer += "parseInt('" + args[3] + "'),";
 				footer += "parseInt('" + args[4] + "')";
-				footer += "); }); </script>";
+				footer += "); });";
 			}
 		}
+		footer += "</script>";
 		return footer;
 	}
 }

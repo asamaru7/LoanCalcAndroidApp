@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">대출이자</string>
+    <string name="language">ko</string>
     <string name="loanCalc">대출이자 계산기</string>
+    <string name="calcHist">계산 이력</string>
 
     <!-- 대출이자계산기 : loan.html -->
     <string-array name="i18n_loan">
@@ -27,10 +29,30 @@
         <item>PnIep:원리금균등상환</item>
         <item>Pep:원금균등상환</item>
         <item>BulletR:원금만기일시상환</item>
+        <item>Result:계산결과</item>
+        <item>TotalInterest:총 이자액</item>
+        <item>TotalPrincipalAndInterest:원금 및 총이자액</item>
+        <item>Num:회차</item>
+        <item>Payment:상환금</item>
+        <item>Principal:납입원금</item>
+        <item>Interest:이자</item>
+        <item>TotalPrincipalPaid:납입원금계</item>
+        <item>Balance:잔금</item>
     </string-array>
 
     <string-array name="i18n_history">
         <item>loanAmount:Loan amount</item>
+        <item>Information:안내</item>
+        <item>EmptyHistory:계산된 이력이 없습니다.</item>
+        <item>month:개월</item>
+        <item>TotalInterest:총 이자액</item>
+        <item>TotalPrincipalAndInterest:원금 및 총이자액</item>
+        <item>loanAmount:대출원금</item>
+        <item>interestRate:대출금리</item>
+        <item>loanPeriod:대출기간</item>
+        <item>gracePeriod:거치기간</item>
+        <item>Detail:상세보기</item>
+        <item>Delete:삭제</item>
     </string-array>
 
 </resources>

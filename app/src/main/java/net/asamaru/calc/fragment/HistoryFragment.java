@@ -11,6 +11,7 @@ import com.joanzapata.android.iconify.IconDrawable;
 import com.joanzapata.android.iconify.Iconify;
 import com.x5.template.Chunk;
 
+import net.asamaru.bootstrap.Advisor;
 import net.asamaru.calc.R;
 import net.asamaru.calc.data.History;
 import net.asamaru.calc.data.HistoryWorker;
@@ -30,6 +31,8 @@ import io.realm.RealmResults;
 
 @EFragment
 public class HistoryFragment extends WebViewAssetFragment {
+	static String language;
+
 	public HistoryFragment() {
 		super();
 		path = "history.html";
@@ -42,6 +45,8 @@ public class HistoryFragment extends WebViewAssetFragment {
 				"res/alertify/css/alertify.core.css",
 				"res/alertify/css/alertify.bootstrap.css",
 				"css/history.css"});
+
+		language = Advisor.getResources().getString(R.string.language);
 	}
 
 	@Override
@@ -62,20 +67,30 @@ public class HistoryFragment extends WebViewAssetFragment {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		String lTitle = "이력 모두 삭제";
+		String lMessage = "계산 이력을 모두 삭제하시겠습니까?";
+		String lBtnDelete = "삭제";
+		String lBtnCancel = "취소";
+		if (!"ko".equals(language)) {
+			lTitle = "Clear History";
+			lMessage = "Are you sure you want to delete all the calculation history?";
+			lBtnDelete = "Delete";
+			lBtnCancel = "Cancel";
+		}
 		CharSequence title = item.getTitle();
 		if ((title != null) && (title.toString().equals("Clear"))) {
 			new AlertDialog.Builder(this.getActivity())
 					.setIcon(android.R.drawable.ic_dialog_alert)
-					.setTitle("이력 모두 삭제")
-					.setMessage("계산 이력을 모두 삭제하시겠습니까?")
-					.setPositiveButton("삭제", new DialogInterface.OnClickListener() {
+					.setTitle(lTitle)
+					.setMessage(lMessage)
+					.setPositiveButton(lBtnDelete, new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
 							HistoryWorker.removeAll();
 							loadHtml();
 						}
 					})
-					.setNegativeButton("취소", null)
+					.setNegativeButton(lBtnCancel, null)
 					.show();
 		}
 		return super.onOptionsItemSelected(item);
@@ -131,25 +146,47 @@ public class HistoryFragment extends WebViewAssetFragment {
 	}
 
 	static private String typeText(int type) {
-		switch (type) {
-			case 1:
-				return "원리금균등상환";
-			case 2:
-				return "원금균등상환";
-			case 3:
-				return "원금만기일시상환";
+		if ("ko".equals(language)) {
+			switch (type) {
+				case 1:
+					return "원리금균등상환";
+				case 2:
+					return "원금균등상환";
+				case 3:
+					return "원금만기일시상환";
+			}
+		} else {
+			switch (type) {
+				case 1:
+					return "P&I with equal payments";
+				case 2:
+					return "P with equal payments";
+				case 3:
+					return "Bullet repayment";
+			}
 		}
 		return "";
 	}
 
 	static private String summaryText(int type) {
-		switch (type) {
-			case 1:
-				return "월상환금";
-			case 2:
-				return "월납입원금";
-			case 3:
-				return "월평균이자";
+		if ("ko".equals(language)) {
+			switch (type) {
+				case 1:
+					return "월상환금";
+				case 2:
+					return "월납입원금";
+				case 3:
+					return "월평균이자";
+			}
+		} else {
+			switch (type) {
+				case 1:
+					return "Monthly Payments";
+				case 2:
+					return "Monthly Principal Payment";
+				case 3:
+					return "Monthly Average Interest";
+			}
 		}
 		return "";
 	}

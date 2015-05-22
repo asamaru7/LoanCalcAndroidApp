@@ -4,6 +4,7 @@
     <string name="banner_ad_unit_id" translatable="false">ca-app-pub-8163803188491150/8530941826</string>
 
     <string name="app_name">Loan Calc</string>
+    <string name="language">en</string>
     <string name="loanCalc">Loan Calculator</string>
     <string name="calcHist">Calculation history</string>
 
@@ -49,13 +50,33 @@ calculation of for each type (5 types) of loan
         <item>curr3n:100k</item>
         <item>curr4:1000000</item>
         <item>curr4n:1m</item>
-        <item>PnIep:P&amp;I with equal payments</item>
-        <item>Pep: P with equal payments</item>
-        <item>BulletR:Bullet repayment</item>
+        <item>PnIep:P&amp;I with equal</item>
+        <item>Pep: P with equal</item>
+        <item>BulletR:Bullet</item>
+        <item>Result:Result</item>
+        <item>TotalInterest:Total Interest</item>
+        <item>TotalPrincipalAndInterest:Total Principal &amp; Interest</item>
+        <item>Num:Num</item>
+        <item>Payment:Payment</item>
+        <item>Principal:Principal</item>
+        <item>Interest:Interest</item>
+        <item>TotalPrincipalPaid:Total Principal Paid</item>
+        <item>Balance:Balance</item>
     </string-array>
 
     <string-array name="i18n_history">
         <item>loanAmount:Loan amount</item>
+        <item>Information:Information</item>
+        <item>EmptyHistory:History is empty.</item>
+        <item>month:Month</item>
+        <item>TotalInterest:Total Interest</item>
+        <item>TotalPrincipalAndInterest:Total Principal &amp; Interest</item>
+        <item>loanAmount:Loan amount</item>
+        <item>interestRate:Interest Rate</item>
+        <item>loanPeriod:Period</item>
+        <item>gracePeriod:Grace Period</item>
+        <item>Detail:Detail</item>
+        <item>Delete:Delete</item>
     </string-array>
 
 </resources>
