@@ -90,9 +90,15 @@ public class MainActivity extends NavigationDrawerActivity {
 			replaceFragment(fragment);
 		} else if (menu instanceof FragmentMenu) {
 			try {
-				Method m = ((Class<?>) (((FragmentMenu) menu).fragmentClass)).getMethod("builder");
-				FragmentBuilder<?, Fragment> result = (FragmentBuilder<?, Fragment>) m.invoke(null);
-				replaceFragment(result.build());
+				String canonicalName = (((FragmentMenu) menu).fragmentClass).getCanonicalName();
+				if (canonicalName.equals(LoanFragment_.class.getCanonicalName())) {
+					replaceFragment(LoanFragment_.builder().build());
+				} else if (canonicalName.equals(HistoryFragment_.class.getCanonicalName())) {
+					replaceFragment(HistoryFragment_.builder().build());
+				}
+//				Method m = ((Class<?>) (((FragmentMenu) menu).fragmentClass)).getMethod("builder");
+//				FragmentBuilder<?, Fragment> result = (FragmentBuilder<?, Fragment>) m.invoke(null);
+//				replaceFragment(result.build());
 			} catch (Exception e) {
 				Logger.e(e);
 			}

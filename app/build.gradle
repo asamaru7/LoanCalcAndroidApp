@@ -8,8 +8,8 @@ android {
         applicationId "net.asamaru.calc"
         minSdkVersion 14
         targetSdkVersion 22
-        versionCode 1
-        versionName "1.0"
+        versionCode 10001
+        versionName "1.0.1"
     }
     buildTypes {
         debug {
@@ -33,7 +33,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.1.1'
     compile 'com.google.android.gms:play-services:7.0.0'   // admob
     compile 'com.x5dev:chunk-templates:2.6.3'   // chunk template
-    compile 'io.realm:realm-android:0.80.1' // realm : http://realm.io/kr/
+    compile 'io.realm:realm-android:0.80.3' // realm : http://realm.io/kr/
 }
 
 // --------------------------------------------------------
