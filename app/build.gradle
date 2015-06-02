@@ -8,12 +8,12 @@ android {
         applicationId "net.asamaru.calc"
         minSdkVersion 14
         targetSdkVersion 22
-        versionCode 10001
-        versionName "1.0.1"
+        versionCode 10003
+        versionName "1.0.3"
     }
     buildTypes {
         debug {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         release {

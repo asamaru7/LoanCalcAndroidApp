@@ -21,8 +21,15 @@
 
 -libraryjars libs
 
+# support v7
+-keep class android.support.v7.** { *; }
+
+# android annotation
 -dontwarn org.androidannotations.api.rest.**
 -dontwarn org.springframework.http.**
+
+# Keep all the ACRA classes
+-keep class org.acra.** { *; }
 
 # realm
 -keepnames public class * extends io.realm.RealmObject
@@ -39,6 +46,15 @@
 -keep class com.x5.template.** { *; }
 -keep class net.minidev.** { *; }
 -keep class com.x5.util.** { *; }
+
+# admob
+-keep public class com.google.android.gms.ads.** {
+   public *;
+}
+
+-keep public class com.google.ads.** {
+   public *;
+}
 
 # -------------------------------------------------------
 # bootstrap
